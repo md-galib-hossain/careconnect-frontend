@@ -172,7 +172,7 @@ const WhyUs = () => {
             <Box
               sx={{
                 display: "flex",
-                justifyContent: "center",
+                justifyContent: "end",
                 alignItems: "center",
               }}
             >
