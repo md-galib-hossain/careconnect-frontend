@@ -12,11 +12,15 @@ import Image from "next/image";
 import assets from "@/assets";
 import Link from "next/link";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { modifyPayload } from "@/utils/modifyPayload";
+import { registerPatient } from "../services/actions/registerPatient";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 interface IPatientData {
   name: string;
   email: string;
-  contactNo: string;
+  contactNumber: string;
   address: string;
 }
 
@@ -25,13 +29,26 @@ interface IPatientRegisterFormData {
   patient: IPatientData;
 }
 const RegisterPage = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm<IPatientRegisterFormData>();
-  const onSubmit: SubmitHandler<IPatientRegisterFormData> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<IPatientRegisterFormData> = async (values) => {
+    const data = modifyPayload(values);
+    try {
+      const response = await registerPatient(data);
+      console.log(response);
+      if (response?.data?.id) {
+        toast.success(response?.message);
+        router.push("/login");
+      }
+    } catch (err: any) {
+      console.log(err?.message);
+    }
+  };
 
   return (
     <Container>
@@ -108,7 +125,7 @@ const RegisterPage = () => {
                     variant="outlined"
                     size="small"
                     fullWidth={true}
-                    {...register("patient.contactNo")}
+                    {...register("patient.contactNumber")}
                   />
                 </Grid>
                 <Grid item md={6}>
