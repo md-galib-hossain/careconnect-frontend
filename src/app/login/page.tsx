@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { userLogin } from "../services/actions/userLogin";
 import { toast } from "sonner";
+import { storeUserInfo } from "../services/auth.services";
 export interface IPatientLoginData {
   email: string;
   password: string;
@@ -33,8 +34,11 @@ const LoginPage = () => {
   ) => {
     try {
       const res = await userLogin(values);
-      if (res?.data) {
+      if (res?.data?.accessToken) {
         toast.success(res?.message);
+        storeUserInfo(res?.data?.accessToken);
+        router.push("/");
+
       } else if (res?.error) {
         toast.error(res?.message);
       }
