@@ -13,32 +13,23 @@ import React from "react";
 import assets from "@/assets";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { userLogin } from "../services/actions/userLogin";
 import { toast } from "sonner";
 import { storeUserInfo } from "../services/auth.services";
-export interface IPatientLoginData {
-  email: string;
-  password: string;
-}
+import CCForm from "@/components/Forms/CCForm";
+import CCInput from "@/components/Forms/CCInput";
+
 const LoginPage = () => {
   const router = useRouter();
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<IPatientLoginData>();
-  const onSubmit: SubmitHandler<IPatientLoginData> = async (
-    values: IPatientLoginData
-  ) => {
+
+  const handleLogin = async (values: FieldValues) => {
     try {
       const res = await userLogin(values);
       if (res?.data?.accessToken) {
         toast.success(res?.message);
         storeUserInfo(res?.data?.accessToken);
         router.push("/");
-
       } else if (res?.error) {
         toast.error(res?.message);
       }
@@ -83,27 +74,23 @@ const LoginPage = () => {
           </Stack>
           {/* */}
           <Box>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <CCForm onSubmit={handleLogin}>
               {/* parent grid */}
               <Grid container spacing={2} my={1}>
                 <Grid item md={6}>
-                  <TextField
+                  <CCInput
+                    name="email"
                     label="Email"
                     type="email"
-                    variant="outlined"
-                    size="small"
                     fullWidth={true}
-                    {...register("email")}
                   />
                 </Grid>
                 <Grid item md={6}>
-                  <TextField
+                  <CCInput
+                  name="password"
                     label="Password"
                     type="password"
-                    variant="outlined"
-                    size="small"
                     fullWidth={true}
-                    {...register("password")}
                   />
                 </Grid>
               </Grid>
@@ -125,7 +112,7 @@ const LoginPage = () => {
                   <Link href="/register">Register</Link>
                 </Box>
               </Typography>
-            </form>
+            </CCForm>
           </Box>
         </Box>
       </Stack>
