@@ -37,7 +37,10 @@ const Footer = () => {
             <Image src={facebookIcon} width={30} height={30} alt="facebook" />
           </Link>
         </Stack>
-        <div className="border-b-[1px] border-dashed"></div>
+        {/* <div className="border-b-[1px] border-dashed"></div> */}
+        <Box sx={{border : "1px dashed lightgray"}}>
+
+        </Box>
         <Stack direction="row" gap={2} justifyContent="space-between" alignItems="center"py={3}>
           <Typography color="#fff" component="p">
             &copy;2024 Care Connect. All Rights Reserved.
