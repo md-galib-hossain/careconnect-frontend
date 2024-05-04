@@ -10,7 +10,7 @@ type TInputProps = {
     fullWidth? : boolean;
     sx? : SxProps;
     placeholder?:string;
-    required : boolean
+    required? : boolean
 
 }
 const CCInput = ({name,label,type = "text",size = "small",fullWidth,sx,placeholder,required} : TInputProps) => {
@@ -19,7 +19,7 @@ const CCInput = ({name,label,type = "text",size = "small",fullWidth,sx,placehold
     <Controller
         control={control}
         name={name}
-        render={({ field }) => (
+        render={({ field,fieldState:{error} }) => (
          <TextField
          {...field}
          label={label}
@@ -30,6 +30,8 @@ const CCInput = ({name,label,type = "text",size = "small",fullWidth,sx,placehold
          sx={{...sx}}
          placeholder={placeholder ? placeholder : label}
          required={required}
+         error={!!error?.message} //it will confirm if there is error & its recieve only boolean
+         helperText={error?.message} //showing error text
          />
         )}
       />

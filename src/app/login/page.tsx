@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import assets from "@/assets";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -19,10 +19,18 @@ import { toast } from "sonner";
 import { storeUserInfo } from "../services/auth.services";
 import CCForm from "@/components/Forms/CCForm";
 import CCInput from "@/components/Forms/CCInput";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+export const validationSchema = z.object({
+  email : z.string().email("Please enter a valid email address!") ,
+  password : z.string().min(6,"Must be at least 6 characters")
+})
+
 
 const LoginPage = () => {
   const router = useRouter();
-
+const [error,setError] = useState("")
   const handleLogin = async (values: FieldValues) => {
     try {
       const res = await userLogin(values);
@@ -30,8 +38,9 @@ const LoginPage = () => {
         toast.success(res?.message);
         storeUserInfo(res?.data?.accessToken);
         router.push("/");
-      } else if (res?.error) {
-        toast.error(res?.message);
+      } else {
+        setError(res?.message)
+        // toast.error(res?.message);
       }
     } catch (err: any) {
       console.log(err.message);
@@ -72,13 +81,35 @@ const LoginPage = () => {
               </Typography>
             </Box>
           </Stack>
+          {/* error message start */}
+          {
+            error && <Box>
+            <Typography sx={{
+              backgroundColor : "red",
+              padding : "1px",
+              borderRadius : "2px",
+              color : "white",
+              marginTop : "5px"
+            }}>
+            {error}
+            </Typography>
+            </Box>
+          }
+
+          {/* error message end */}
+
           {/* */}
           <Box>
-            <CCForm onSubmit={handleLogin}>
+            <CCForm onSubmit={handleLogin} resolver={zodResolver(validationSchema)}
+            defaultValues={{
+              email : "",
+              password : ""
+            }}
+            >
               {/* parent grid */}
               <Grid container spacing={2} my={1}>
                 <Grid item md={6}>
-                  <CCInput required={true}
+                  <CCInput 
                     name="email"
                     label="Email"
                     type="email"
@@ -86,7 +117,7 @@ const LoginPage = () => {
                   />
                 </Grid>
                 <Grid item md={6}>
-                  <CCInput required={true}
+                  <CCInput 
                   name="password"
                     label="Password"
                     type="password"

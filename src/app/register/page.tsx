@@ -20,16 +20,51 @@ import { userLogin } from "../services/actions/userLogin";
 import { storeUserInfo } from "../services/auth.services";
 import CCForm from "@/components/Forms/CCForm";
 import CCInput from "@/components/Forms/CCInput";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Password } from "@mui/icons-material";
+import { useState } from "react";
 
+const patientValidationSchema = z.object({
+  patient: z.object({
+    name: z.string({ required_error: "Name is required" }),
+    email: z
+      .string({
+        required_error: "Email is required",
+      })
+      .email("Please enter a valid email address"),
+    contactNumber: z
+      .string({ required_error: "Contact number is required" })
+      .regex(/^\d{11}$/, "Please provide a valid phone number"),
+    address: z.string({ required_error: "Adress is required" }),
+  }),
+
+  password: z
+    .string({ required_error: "Password is required" })
+    .min(6, "Must be atleast 6 characters"),
+});
+
+const formDefaultValues = {
+  patient: {
+    name: "",
+    email: "",
+    contactNumber: "",
+    address: "",
+  },
+  password: "",
+};
 const RegisterPage = () => {
+  const [error, setError] = useState("")
   const router = useRouter();
 
   const handleRegister = async (values: FieldValues) => {
     const data = modifyPayload(values);
     try {
       const response = await registerPatient(data);
+      console.log(response)
       if (response?.data?.id) {
         toast.success(response?.message);
+        
         //login after registration
         const result = await userLogin({
           password: values.password,
@@ -40,6 +75,8 @@ const RegisterPage = () => {
           storeUserInfo(result?.data?.accessToken);
           router.push("/");
         }
+      }else{
+setError(`User with same ${response?.error?.target[0]} already exists`)
       }
     } catch (err: any) {
       console.log(err?.message);
@@ -80,16 +117,36 @@ const RegisterPage = () => {
               </Typography>
             </Box>
           </Stack>
+           {/* error message start */}
+           {
+            error && <Box>
+            <Typography sx={{
+              backgroundColor : "red",
+              padding : "1px",
+              borderRadius : "2px",
+              color : "white",
+              marginTop : "5px"
+            }}>
+            {error}
+            </Typography>
+            </Box>
+          }
+
+          {/* error message end */}
           {/* input fields parent box */}
           <Box>
-            <CCForm onSubmit={handleRegister}>
+            <CCForm
+              onSubmit={handleRegister}
+              resolver={zodResolver(patientValidationSchema)}
+              defaultValues={{formDefaultValues}}
+            >
               {/* parent grid */}
               <Grid container spacing={2} my={1}>
                 <Grid item md={12}>
-                  <CCInput required={true} name="patient.name" label="Name" fullWidth={true} />
+                  <CCInput name="patient.name" label="Name" fullWidth={true} />
                 </Grid>
                 <Grid item md={6}>
-                  <CCInput required={true}
+                  <CCInput
                     label="Email"
                     type="email"
                     fullWidth={true}
@@ -97,7 +154,7 @@ const RegisterPage = () => {
                   />
                 </Grid>
                 <Grid item md={6}>
-                  <CCInput required={true}
+                  <CCInput
                     label="Password"
                     type="password"
                     fullWidth={true}
@@ -105,19 +162,19 @@ const RegisterPage = () => {
                   />
                 </Grid>
                 <Grid item md={6}>
-                  <CCInput required={true}
+                  <CCInput
                     label="Contact No."
                     type="tel"
                     fullWidth={true}
-                   name="patient.contactNumber"
+                    name="patient.contactNumber"
                   />
                 </Grid>
                 <Grid item md={6}>
-                  <CCInput required={true}
+                  <CCInput
                     label="Address"
                     type="text"
                     fullWidth={true}
-                   name="patient.address"
+                    name="patient.address"
                   />
                 </Grid>
               </Grid>
