@@ -61,7 +61,6 @@ const RegisterPage = () => {
     const data = modifyPayload(values);
     try {
       const response = await registerPatient(data);
-      console.log(response)
       if (response?.data?.id) {
         toast.success(response?.message);
         
