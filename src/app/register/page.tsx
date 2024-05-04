@@ -11,38 +11,23 @@ import {
 import Image from "next/image";
 import assets from "@/assets";
 import Link from "next/link";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import { modifyPayload } from "@/utils/modifyPayload";
 import { registerPatient } from "../services/actions/registerPatient";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { userLogin } from "../services/actions/userLogin";
 import { storeUserInfo } from "../services/auth.services";
+import CCForm from "@/components/Forms/CCForm";
+import CCInput from "@/components/Forms/CCInput";
 
-interface IPatientData {
-  name: string;
-  email: string;
-  contactNumber: string;
-  address: string;
-}
-
-interface IPatientRegisterFormData {
-  password: string;
-  patient: IPatientData;
-}
 const RegisterPage = () => {
   const router = useRouter();
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<IPatientRegisterFormData>();
-  const onSubmit: SubmitHandler<IPatientRegisterFormData> = async (values) => {
+
+  const handleRegister = async (values: FieldValues) => {
     const data = modifyPayload(values);
     try {
       const response = await registerPatient(data);
-      console.log(response);
       if (response?.data?.id) {
         toast.success(response?.message);
         //login after registration
@@ -97,56 +82,42 @@ const RegisterPage = () => {
           </Stack>
           {/* input fields parent box */}
           <Box>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <CCForm onSubmit={handleRegister}>
               {/* parent grid */}
               <Grid container spacing={2} my={1}>
                 <Grid item md={12}>
-                  <TextField
-                    label="Name"
-                    variant="outlined"
-                    size="small"
-                    fullWidth={true}
-                    {...register("patient.name")}
-                  />
+                  <CCInput required={true} name="patient.name" label="Name" fullWidth={true} />
                 </Grid>
                 <Grid item md={6}>
-                  <TextField
+                  <CCInput required={true}
                     label="Email"
                     type="email"
-                    variant="outlined"
-                    size="small"
                     fullWidth={true}
-                    {...register("patient.email")}
+                    name="patient.email"
                   />
                 </Grid>
                 <Grid item md={6}>
-                  <TextField
+                  <CCInput required={true}
                     label="Password"
                     type="password"
-                    variant="outlined"
-                    size="small"
                     fullWidth={true}
-                    {...register("password")}
+                    name="password"
                   />
                 </Grid>
                 <Grid item md={6}>
-                  <TextField
+                  <CCInput required={true}
                     label="Contact No."
                     type="tel"
-                    variant="outlined"
-                    size="small"
                     fullWidth={true}
-                    {...register("patient.contactNumber")}
+                   name="patient.contactNumber"
                   />
                 </Grid>
                 <Grid item md={6}>
-                  <TextField
+                  <CCInput required={true}
                     label="Address"
                     type="text"
-                    variant="outlined"
-                    size="small"
                     fullWidth={true}
-                    {...register("patient.address")}
+                   name="patient.address"
                   />
                 </Grid>
               </Grid>
@@ -165,7 +136,7 @@ const RegisterPage = () => {
                   <Link href="/login">Login</Link>
                 </Box>
               </Typography>
-            </form>
+            </CCForm>
           </Box>
         </Box>
       </Stack>
