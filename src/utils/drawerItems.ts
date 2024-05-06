@@ -40,17 +40,7 @@ switch(role){
             icon : GroupIcon,
         },)
         break;
-        case USER_ROLE.ADMIN: 
-        roleMenus.push({
-            title : "Dashboard",
-            path: `${role}`,
-            icon : DashboardIcon,
-        },
-        {
-            title : "Manage Users",
-            path: `${role}/manage-users`,
-            icon : GroupIcon,
-        },)
+        
         case USER_ROLE.ADMIN:
             roleMenus.push(
                {

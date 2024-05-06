@@ -72,7 +72,7 @@ const RegisterPage = () => {
         if (result?.data?.accessToken) {
           toast.success(result?.message);
           storeUserInfo(result?.data?.accessToken);
-          router.push("/");
+          router.push("/dashboard");
         }
       }else{
 setError(`User with same ${response?.error?.target[0]} already exists`)

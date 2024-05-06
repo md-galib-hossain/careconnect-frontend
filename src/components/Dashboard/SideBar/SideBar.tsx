@@ -1,30 +1,20 @@
-import { Box, Divider, List, ListItem, Toolbar,ListItemButton, ListItemIcon, ListItemText, Stack, Typography } from "@mui/material"
-import MailIcon from '@mui/icons-material/Mail';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
+import { Box,  List, Stack, Typography } from "@mui/material"
+
 import Image from "next/image";
 import assets from "@/assets"
 import Link from "next/link";
 import { drawerItems } from "@/utils/drawerItems";
 import { TUserRole } from "@/types";
+import SidebarItem from "./SidebarItem";
+import { getUserInfo } from "@/app/services/auth.services";
+import { useEffect, useState } from "react";
 const SideBar = () => {
-  const drawer = (
-    <div>
- 
-      <List>
-        {drawerItems("super_admin" as TUserRole).map((item, index) => (
-          <ListItem key={index} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={item?.title} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-     
-    </div>
-  );
+  const [userRole,setUserRole] = useState("")
+  useEffect(()=>{
+    const {role} = getUserInfo()
+    setUserRole(role)
+
+  },[])
   return (
 <Box>
   <Stack sx={{
@@ -39,7 +29,11 @@ const SideBar = () => {
       cursor : "pointer"
     }} variant="h6" component="h1">Care Connect</Typography>
   </Stack>
-{drawer}
+  <List>
+        {drawerItems(userRole as TUserRole).map((item, index) => (
+         <SidebarItem key={index} index={index} item={item}/>
+        ))}
+      </List>
 </Box>
 
   )
