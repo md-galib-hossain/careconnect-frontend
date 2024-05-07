@@ -29,7 +29,7 @@ const Specialist = async () => {
           </Typography>
         </Box>
         <Stack direction="row" gap={5} my={5}>
-          {specialties.map(
+          {specialties?.slice(0,6).map(
             (speciality: { id: string; title: string; icon: string }) => (
               <Box key={speciality.id} sx={{
                 flex:1,
