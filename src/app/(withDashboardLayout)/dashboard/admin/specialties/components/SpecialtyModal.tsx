@@ -4,8 +4,8 @@ import CCInput from "@/components/Forms/CCInput";
 import CCModal from "@/components/Shared/CCModal/CCModal";
 import { useCreateSpecialtyMutation } from "@/redux/api/specialtiesApi";
 import { modifyPayload } from "@/utils/modifyPayload";
-import { Button, Grid } from "@mui/material";
-import React from "react";
+import { Box, Button, CircularProgress, Grid } from "@mui/material";
+
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 export type TOpenProps = {
@@ -13,19 +13,19 @@ export type TOpenProps = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const SpecialtyModal = ({ open, setOpen }: TOpenProps) => {
-  const [createSpecialty] = useCreateSpecialtyMutation()
-  const handleFormSubmit =async (values: FieldValues) => {
-    const data = modifyPayload(values)
-    const res =await createSpecialty(data).unwrap()
-    if(res?.id){
-      toast.success("Specialty created successfully!")
-      setOpen(!open)
-    }
-   try{
+  const [createSpecialty] = useCreateSpecialtyMutation();
+  const handleFormSubmit = async (values: FieldValues) => {
+    const data = modifyPayload(values);
+    const res = await createSpecialty(data).unwrap();
 
-   }catch(err : any){
-    console.error(err?.message)
-   }
+    if (res?.id) {
+      toast.success("Specialty created successfully!");
+      setOpen(!open);
+    }
+    try {
+    } catch (err: any) {
+      console.error(err?.message);
+    }
   };
   return (
     <CCModal open={open} setOpen={setOpen} title="Create a new Specialty">
@@ -35,10 +35,10 @@ const SpecialtyModal = ({ open, setOpen }: TOpenProps) => {
             <CCInput name="title" label="Title" />
           </Grid>
           <Grid item md={6}>
-          <CCFileUploader name="file" label="Upload File"/>
+            <CCFileUploader name="file" label="Upload File" />
           </Grid>
         </Grid>
-        <Button sx={{mt : 1}} type="submit">
+        <Button sx={{ mt: 1 }} type="submit">
           Create
         </Button>
       </CCForm>

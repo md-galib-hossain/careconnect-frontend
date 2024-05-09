@@ -8,7 +8,7 @@ export type TDoctor = {
     registrationNumber: string;
     experience: number;
     gender: 'MALE' | 'FEMALE' | 'OTHER';
-    appoinmentFee: number;
+    appointmentFee: number;
     qualification: string;
     currentWorkingPlace: string;
     designation: string;
