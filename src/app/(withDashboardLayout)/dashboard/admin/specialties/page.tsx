@@ -69,7 +69,7 @@ const SpecialtiesPage = () => {
         <SpecialtyModal open={isModalOpen} setOpen={setIsModalOpen} />
         <TextField size="small" placeholder="Search Specialties" />
       </Stack>
-      <Box my={2}>
+      <Box my={5}>
         Display specialties
         {!isLoading ? (
           <DataGrid rows={data} columns={columns} />
