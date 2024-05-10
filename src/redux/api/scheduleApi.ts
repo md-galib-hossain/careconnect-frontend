@@ -1,3 +1,4 @@
+import { TMeta } from "@/types";
 import { tagTypes } from "../tag-Types";
 import { baseApi } from "./baseApi";
 
@@ -8,17 +9,22 @@ const scheduleApi = baseApi.injectEndpoints({
       query: (data) => ({
         url: "/schedule",
         method: "POST",
-        contentType: "multipart/form-data",
         data,
       }),
       invalidatesTags: [tagTypes.schedule],
     }),
 
     getAllSchedules: build.query({
-      query: () => ({
+      query: (arg : Record<string,any>) => ({
         url: "/schedule",
         method: "GET",
-      }),
+        params:arg
+      }), transformResponse: (response: any) => {
+        return {
+          schedules: response?.data,
+          meta : response?.meta,
+        };
+      },
       providesTags: [tagTypes.schedule],
     }),
     deleteSchedule: build.mutation({
