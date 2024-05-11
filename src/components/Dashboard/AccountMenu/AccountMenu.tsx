@@ -10,6 +10,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Logout from '@mui/icons-material/Logout';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useRouter } from 'next/navigation';
+import { removeFromLocalStorage } from '@/utils/local-storage';
 
 const menuStyles = {
    paper: {
@@ -31,7 +32,7 @@ const menuStyles = {
          right: 14,
          width: 10,
          height: 10,
-         bgcolor: 'background.paper',
+         bgcolor: 'background.red',
          transform: 'translateY(-50%) rotate(45deg)',
          zIndex: 0,
       },
@@ -51,6 +52,8 @@ export default function AccountMenu() {
    };
    const handleLogout = () => {
       setAnchorEl(null);
+removeFromLocalStorage("accessToken")
+      router.push("/login")
     //   logoutUser(router);
    };
 
@@ -77,9 +80,9 @@ export default function AccountMenu() {
                   aria-expanded={open ? 'true' : undefined}
                   //   size='small'
                   sx={{
-                     background: '#ffffff',
+                     background: 'primary.main',
                      '& svg': {
-                        color: 'primary.main',
+                        color: '#ffffff',
                      },
                   }}
                >

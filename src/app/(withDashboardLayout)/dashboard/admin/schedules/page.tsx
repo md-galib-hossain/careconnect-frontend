@@ -3,19 +3,20 @@
 import { Box, Button, IconButton, Stack, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import ScheduleModal from "./components/ScheduleModal";
-import { useGetAllSchedulesQuery } from "@/redux/api/scheduleApi";
+import { useDeleteScheduleMutation, useGetAllSchedulesQuery } from "@/redux/api/scheduleApi";
 import { DataGrid, GridColDef, GridDeleteIcon } from "@mui/x-data-grid";
 import { ISchedule } from "@/types/schedule";
 import { dateFormatter } from "@/utils/dateFormatter";
 import dayjs from "dayjs";
+import { toast } from "sonner";
 
 const SchedulesPage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [allSchedule, setAllSchedule] = useState<any>([]);
+  const [deleteSchedule] = useDeleteScheduleMutation()
   const { data, isLoading } = useGetAllSchedulesQuery({});
   const schedules = data?.schedules;
   const meta = data?.meta;
-  console.log(meta)
   useEffect(() => {
     const updateData = schedules?.map((schedule: ISchedule,index : number) => {
       return {
@@ -30,6 +31,20 @@ const SchedulesPage = () => {
     setAllSchedule(updateData);
   }, [schedules]);
 
+
+  //delete
+  const handleDelete = async(id : string)=>{
+    try{
+
+      const res = await deleteSchedule(id).unwrap()
+      if(res?.id){
+        toast.success("Schedule deleted successfully")
+      }
+      console.log(res)
+    }catch(err){
+      console.log(err)
+    }
+  }
   const columns: GridColDef[] = [
     { field: "sl", headerName: "SL" },
     { field: "startDate", headerName: "Date", flex: 1 },
@@ -43,7 +58,7 @@ const SchedulesPage = () => {
       align: "center",
       renderCell: ({ row }) => {
         return (
-          <IconButton aria-label="delete">
+          <IconButton aria-label="delete" onClick={(e)=>handleDelete(row.id)}>
             <GridDeleteIcon sx={{ color: "red" }} />
           </IconButton>
         );

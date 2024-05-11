@@ -7,11 +7,15 @@ import { DataGrid, GridColDef, GridDeleteIcon } from "@mui/x-data-grid";
 import Image from "next/image";
 import { useDebounce } from "@/redux/hooks";
 import { toast } from "sonner";
+import Link from "next/link";
+import EditIcon from "@mui/icons-material/Edit";
 
 const DoctorsPage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const query : Record<string,any> = {}
   const [searchTerm, setSearchTerm] = useState<string>("")
+
+  //search after 6 second delay
   const debouncedTerm = useDebounce({searchQuery : searchTerm, delay : 600})
   if(!!debouncedTerm){
     query["searchTerm"] = searchTerm
@@ -49,12 +53,21 @@ if(res?.id){
       align: "center",
       renderCell: ({ row }) => {
         return (
+          <Box>
+
           <IconButton onClick={() => handleDelete(row.id)} aria-label="delete">
-            <GridDeleteIcon />
+            <GridDeleteIcon sx={{ color: "red" }}/>
           </IconButton>
+          <Link href={`/dashboard/admin/doctors/edit/${row.id}`}>
+              <IconButton aria-label="delete">
+                <EditIcon />
+              </IconButton>
+            </Link>
+          </Box>
         );
       },
     },
+  
   
   ];
   return (
