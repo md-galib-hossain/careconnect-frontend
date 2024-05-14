@@ -3,7 +3,7 @@ import { Button } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-export const AuthButton = () => {
+export const AuthButton =async () => {
   const userInfo = getUserInfo();
   console.log(userInfo)
   const router = useRouter();

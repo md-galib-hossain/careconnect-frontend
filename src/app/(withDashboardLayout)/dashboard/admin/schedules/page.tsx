@@ -58,7 +58,7 @@ const SchedulesPage = () => {
       align: "center",
       renderCell: ({ row }) => {
         return (
-          <IconButton aria-label="delete" onClick={(e)=>handleDelete(row.id)}>
+          <IconButton aria-label="delete" onClick={()=>handleDelete(row.id)}>
             <GridDeleteIcon sx={{ color: "red" }} />
           </IconButton>
         );

@@ -32,7 +32,7 @@ const DoctorUpdatePage = ({ params }: TDoctorUpdatePageParams) => {
     try {
       const response = await updateDoctor({ id: values?.id, body: values }).unwrap();
       if (response?.id) {
-          toast.success("Doctor Updated SUccessfully");
+          toast.success("Doctor Updated Successfully");
           router.push("/dashboard/admin/doctors")
       }
     } catch (err: any) {

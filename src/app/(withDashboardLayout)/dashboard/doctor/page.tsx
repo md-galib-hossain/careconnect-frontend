@@ -1,7 +1,8 @@
+import { Box } from "@mui/material"
 
 const DoctorPage = () => {
   return (
-    <div>Doctor dashboard page</div>
+    <Box>Doctor dashboard page</Box>
   )
 }
 

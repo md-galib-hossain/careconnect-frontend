@@ -7,15 +7,19 @@ import {
   setToLocalStorage,
 } from "@/utils/local-storage";
 
-export const storeUserInfo = (accessToken: string) => {
+export const storeUserInfo = ({accessToken}: {accessToken:string}) => {
   return setToLocalStorage(authKey, accessToken);
 };
 
 export const getUserInfo = () => {
-  const authToken = getFromLocalStorage(authKey);
-  if (authToken) {
+  const authToken : string | any = getFromLocalStorage(authKey);
+  
+  if (authToken !== 'undefined') {
     const decodedData: any = decodedToken(authToken);
-    return { ...decodedData, role: decodedData?.role.toLowerCase() };
+    return { ...decodedData, role: decodedData?.role?.toLowerCase() };
+  }else{
+    return ""
+
   }
 };
 
@@ -26,7 +30,6 @@ export const isLoggedIn = () => {
   }
 };
 export const removeUser = () => {
-  console.log("kk");
   return removeFromLocalStorage(authKey);
 };
 
