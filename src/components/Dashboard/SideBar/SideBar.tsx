@@ -30,7 +30,7 @@ const SideBar = () => {
     }} variant="h6" component="h1">Care Connect</Typography>
   </Stack>
   <List>
-        {drawerItems(userRole as TUserRole).map((item, index) => (
+        {drawerItems(userRole as TUserRole)?.map((item, index) => (
          <SidebarItem key={index} index={index} item={item}/>
         ))}
       </List>

@@ -1,3 +1,4 @@
+import setAccessToken from "@/app/services/actions/setAccessToken";
 import { getNewAccessToken } from "@/app/services/auth.services";
 import { authKey } from "@/constants/authKey";
 import { TGenericErrorResponse, TResponseSuccessType } from "@/types";
@@ -41,12 +42,15 @@ instance.interceptors.response.use(
   async function (error) {
     const config = error?.config;
     if (error?.response?.status === 500 && !config.sent) {
-      config.sent = true
+      config.sent = true;
+
       const response = await getNewAccessToken();
       console.log(response);
       const accessToken = response?.data?.accessToken;
       config.headers["Authorization"] = accessToken;
       setToLocalStorage(authKey, accessToken);
+      //setting access token also in cookie
+      setAccessToken(accessToken)
       return instance(config);
     } else {
       // Any status codes that falls outside the range of 2xx cause this function to trigger

@@ -16,7 +16,7 @@ import { useRouter } from "next/navigation";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { userLogin } from "../services/actions/userLogin";
 import { toast } from "sonner";
-import { storeUserInfo } from "../services/auth.services";
+import { getUserInfo, storeUserInfo } from "../services/auth.services";
 import CCForm from "@/components/Forms/CCForm";
 import CCInput from "@/components/Forms/CCInput";
 import { z } from "zod";
@@ -36,8 +36,10 @@ const [error,setError] = useState("")
       const res = await userLogin(values);
       if (res?.data?.accessToken) {
         toast.success(res?.message);
-        storeUserInfo(res?.data?.accessToken);
-        router.push("/dashboard");
+     storeUserInfo(res?.data?.accessToken);
+        const user = getUserInfo()
+      
+        // router.push(`/dashboard/${user?.role}`);
       } else {
         setError(res?.message)
         // toast.error(res?.message);

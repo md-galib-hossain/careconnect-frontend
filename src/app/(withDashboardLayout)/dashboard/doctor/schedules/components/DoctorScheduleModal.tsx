@@ -70,7 +70,7 @@ toast.success("Your slot have been created")
       <Stack direction={"column"} gap={2}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
-            // disablePast
+            disablePast
             label="Date"
             value={dayjs(selectedDate)}
             onChange={(newValue) =>

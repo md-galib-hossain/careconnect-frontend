@@ -22,6 +22,7 @@ const ScheduleModal = ({ open, setOpen }: TOpenProps) => {
     values.startTime = timeFormatter(values.startTime);
     values.endTime = timeFormatter(values.endTime);
     try {
+      console.log(values)
       const res = await createSchedule(values).unwrap();
       if (res?.length) {
         toast.success("Schedules created successfully!");

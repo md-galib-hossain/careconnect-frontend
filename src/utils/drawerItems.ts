@@ -13,6 +13,9 @@ import BookOnlineIcon from '@mui/icons-material/BookOnline';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 export const drawerItems = (role : TUserRole) : TDrawerItem[]=>{
+
+
+
 const roleMenus : TDrawerItem[] = []
 const defaultMenus = [
     {
@@ -92,7 +95,8 @@ switch(role){
                   title: 'Appointments',
                   path: `${role}/appointment`,
                   icon: BookOnlineIcon,
-               }
+               },
+               
             );
             break;
    

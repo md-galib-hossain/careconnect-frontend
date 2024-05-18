@@ -7,14 +7,14 @@ import {
   setToLocalStorage,
 } from "@/utils/local-storage";
 
-export const storeUserInfo = ({accessToken}: {accessToken:string}) => {
+export const storeUserInfo = (accessToken:string) => {
   return setToLocalStorage(authKey, accessToken);
 };
 
 export const getUserInfo = () => {
   const authToken : string | any = getFromLocalStorage(authKey);
   
-  if (authToken !== 'undefined') {
+  if (authToken && authToken !== 'undefined') {
     const decodedData: any = decodedToken(authToken);
     return { ...decodedData, role: decodedData?.role?.toLowerCase() };
   }else{
@@ -29,6 +29,8 @@ export const isLoggedIn = () => {
     return !!authToken;
   }
 };
+
+
 export const removeUser = () => {
   return removeFromLocalStorage(authKey);
 };
