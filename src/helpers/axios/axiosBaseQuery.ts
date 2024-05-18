@@ -1,4 +1,4 @@
-import { TMeta } from "@/types";
+import { TMeta, TResponseSuccessType } from "@/types";
 import type { BaseQueryFn } from "@reduxjs/toolkit/query";
 import type { AxiosRequestConfig, AxiosError } from "axios";
 import { instance as axiosInstance } from "./axiosInstance";
@@ -11,6 +11,7 @@ export const axiosBaseQuery =
       url: string;
       method?: AxiosRequestConfig["method"];
       data?: AxiosRequestConfig["data"];
+    
       params?: AxiosRequestConfig["params"];
       headers?: AxiosRequestConfig["headers"];
       meta?: TMeta;
@@ -31,7 +32,7 @@ export const axiosBaseQuery =
         },
 
       });
-      return result;
+      return result
     } catch (axiosError) {
       const err = axiosError as AxiosError;
       return {

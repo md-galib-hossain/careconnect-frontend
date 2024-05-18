@@ -18,7 +18,8 @@ export type TDrawerItem = {
 };
 export type TResponseSuccessType = {
   data : any;
-  meta ? : TMeta
+  meta ? : TMeta;
+
 }
 
 export type TGenericErrorResponse = {

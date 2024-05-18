@@ -30,12 +30,15 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   //@ts-ignore
   function (response) {
+    console.log(response)
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
     const responseObject: TResponseSuccessType = {
       //**we are getting response from backend and we get our data in response.data but redux add one more data object here
       data: response?.data?.data,
       meta: response?.data?.meta,
+     
+
     };
     return responseObject;
   },
