@@ -127,9 +127,12 @@ const [error,setError] = useState("")
                   />
                 </Grid>
               </Grid>
-              <Typography mb={1} textAlign="end" component="p" fontWeight={300}>
-                <Link href="/forgot-password">Forgot password?</Link>
-              </Typography>
+              <Link href="/forgot-password">
+              <Typography mb={1} textAlign="end" component="p" fontWeight={300} sx={{
+                textDecoration : 'underline'
+              }}>
+                Forgot password?
+              </Typography></Link>
               <Button
                 sx={{
                   margin: "8px 0px",

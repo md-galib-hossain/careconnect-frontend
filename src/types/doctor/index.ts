@@ -8,7 +8,7 @@ export interface Doctor {
     registrationNumber: string;
     experience: number;
     gender: 'MALE' | 'FEMALE' | 'OTHER';
-    apointmentFee: number;
+    appointmentFee: number;
     qualification: string;
     currentWorkingPlace: string;
     designation: string;
@@ -35,7 +35,7 @@ export interface Doctor {
     registrationNumber: string;
     experience: number | undefined;
     gender: 'MALE' | 'FEMALE';
-    apointmentFee: number | undefined;
+    appointmentFee: number | undefined;
     qualification: string;
     currentWorkingPlace: string;
     designation: string;

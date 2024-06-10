@@ -7,7 +7,9 @@ const Specialist = async () => {
       revalidate: 30,
     },
   });
+ 
   const { data: specialties } = await res.json();
+  
   return (
     <Container>
       <Box
@@ -22,7 +24,7 @@ const Specialist = async () => {
           }}
         >
           <Typography variant="h4" fontWeight={600}>
-            Explore Treatments Across Specialties
+            Explore Treatments Across
           </Typography>
           <Typography component="p" fontWeight={300} fontSize={18}>
             Experienced Doctors Across All Specialties

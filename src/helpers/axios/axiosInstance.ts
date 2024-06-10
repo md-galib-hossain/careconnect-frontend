@@ -1,7 +1,7 @@
 import setAccessToken from "@/app/services/actions/setAccessToken";
 import { getNewAccessToken } from "@/app/services/auth.services";
 import { authKey } from "@/constants/authKey";
-import { TGenericErrorResponse, TResponseSuccessType } from "@/types";
+import { IGenericErrorResponse, ResponseSuccessType } from "@/types";
 import { getFromLocalStorage, setToLocalStorage } from "@/utils/local-storage";
 import axios from "axios";
 
@@ -15,8 +15,8 @@ instance.interceptors.request.use(
   function (config) {
     // Do something before request is sent
     const accessToken = getFromLocalStorage(authKey);
-    if (accessToken) {
-      config.headers.Authorization = accessToken;
+    if (accessToken && accessToken !== "undefined") {
+      config.headers.Authorization = accessToken
     }
     return config;
   },
@@ -30,42 +30,50 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   //@ts-ignore
   function (response) {
-    console.log(response)
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
-    const responseObject: TResponseSuccessType = {
-      //**we are getting response from backend and we get our data in response.data but redux add one more data object here
+    const responseObject: ResponseSuccessType = {
       data: response?.data?.data,
       meta: response?.data?.meta,
-     
-
     };
     return responseObject;
   },
   async function (error) {
-    const config = error?.config;
-    if (error?.response?.status === 500 && !config.sent) {
+    // Any status codes that falls outside the range of 2xx cause this function to trigger
+    // Do something with response error
+    const config = error.config;
+    if (error?.response?.status === 401 && !config.sent) {
       config.sent = true;
 
-      const response = await getNewAccessToken();
-      console.log(response);
-      const accessToken = response?.data?.accessToken;
-      config.headers["Authorization"] = accessToken;
-      setToLocalStorage(authKey, accessToken);
-      //setting access token also in cookie
-      setAccessToken(accessToken)
-      return instance(config);
+      const accessToken = getFromLocalStorage(authKey);
+
+      if (!accessToken || accessToken === "undefined") {
+        // No access token present, and no refresh token available for renewal
+        return Promise.reject(error);
+      }
+
+      try {
+        const response = await getNewAccessToken();
+        const newAccessToken = response?.data?.accessToken;
+        config.headers["Authorization"] = `Bearer ${newAccessToken}`;
+        setToLocalStorage(authKey, newAccessToken);
+        setAccessToken(newAccessToken);
+
+        // Retry the request with the new access token
+        return instance(config);
+      } catch (refreshError) {
+        // Handle token refresh error, e.g., redirect to login page
+        return Promise.reject(refreshError);
+      }
     } else {
-      // Any status codes that falls outside the range of 2xx cause this function to trigger
-      // Do something with response error
-      const responseObject: TGenericErrorResponse = {
+      const responseObject: IGenericErrorResponse = {
         statusCode: error?.response?.data?.statusCode || 500,
-        message: error?.response?.data?.message || "Something went wrong !",
+        message: error?.response?.data?.message || "Something went wrong!!!",
         errorMessages: error?.response?.data?.message,
       };
-      // return Promise.reject(error);
-      return responseObject;
+      return Promise.reject(responseObject);
     }
   }
 );
+
 export { instance };

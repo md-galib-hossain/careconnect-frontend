@@ -1,4 +1,3 @@
-import { TMeta } from "@/types";
 import { tagTypes } from "../tag-Types";
 import { baseApi } from "./baseApi";
 
