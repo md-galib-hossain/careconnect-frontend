@@ -24,7 +24,7 @@ const DoctorScheduleSlots = ({ id }: { id: string }) => {
 
    query['doctorId'] = id;
 
-   query['startDate'] = dayjs(new Date())
+   query['startDateTime'] = dayjs(new Date())
       .utc()
       .hour(0)
       .minute(0)
@@ -32,7 +32,7 @@ const DoctorScheduleSlots = ({ id }: { id: string }) => {
       .millisecond(0)
       .toISOString();
 
-   query['endDate'] = dayjs(new Date())
+   query['endDateTime'] = dayjs(new Date())
       .utc()
       .hour(23)
       .minute(59)
@@ -44,7 +44,7 @@ const DoctorScheduleSlots = ({ id }: { id: string }) => {
 
    const doctorSchedules = data?.doctorSchedules;
 
-   console.log(doctorSchedules);
+   console.log(doctorSchedules?.length);
 
    const currentDate = new Date();
    const today = currentDate.toLocaleDateString('en-US', { weekday: 'long' });
@@ -54,7 +54,7 @@ const DoctorScheduleSlots = ({ id }: { id: string }) => {
    const tomorrow = nextDate.toLocaleDateString('en-US', { weekday: 'long' });
 
    // query params for next date
-   query.startDate = dayjs(nextDate)
+   query.startDateTime = dayjs(nextDate)
       .utc()
       .hour(0)
       .minute(0)
@@ -62,7 +62,7 @@ const DoctorScheduleSlots = ({ id }: { id: string }) => {
       .millisecond(0)
       .toISOString();
 
-   query.endDate = dayjs(nextDate)
+   query.endDateTime = dayjs(nextDate)
       .utc()
       .hour(23)
       .minute(59)
@@ -128,9 +128,9 @@ const DoctorScheduleSlots = ({ id }: { id: string }) => {
                   ) : (
                      availableSlots?.map((doctorSchedule: DoctorSchedule) => {
                         const formattedTimeSlot = `${getTimeIn12HourFormat(
-                           doctorSchedule?.schedule?.startDate
+                           doctorSchedule?.schedule?.startDateTime
                         )} - ${getTimeIn12HourFormat(
-                           doctorSchedule?.schedule?.endDate
+                           doctorSchedule?.schedule?.endDateTime
                         )}`;
 
                         return (
@@ -172,9 +172,9 @@ const DoctorScheduleSlots = ({ id }: { id: string }) => {
                      availableNextDaySlots?.map(
                         (doctorSchedule: DoctorSchedule) => {
                            const formattedTimeSlot = `${getTimeIn12HourFormat(
-                              doctorSchedule?.schedule?.startDate
+                              doctorSchedule?.schedule?.startDateTime
                            )} - ${getTimeIn12HourFormat(
-                              doctorSchedule?.schedule?.endDate
+                              doctorSchedule?.schedule?.endDateTime
                            )}`;
 
                            return (

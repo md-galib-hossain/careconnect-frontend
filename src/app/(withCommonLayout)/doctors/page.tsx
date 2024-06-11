@@ -21,7 +21,7 @@ const Doctors = async ({ searchParams }: PropType) => {
   }
 
   const { data } = await res.json();
-  console.log(data);
+  console.log(data,"hadf");
 
   // console.log(data);
 

@@ -21,6 +21,7 @@ const MenuProps = {
 
 export function getTimeIn12HourFormat(dateTimeString: string): string {
    const date: Date = new Date(dateTimeString);
+   console.log(dateTimeString)
    const hours: number = date.getHours();
    const minutes: number = date.getMinutes();
    const ampm: string = hours >= 12 ? 'PM' : 'AM';
@@ -60,7 +61,7 @@ export default function MultipleSelectFieldChip({
          typeof value === 'string' ? value.split(',') : value
       );
    };
-
+console.log(schedules)
    return (
       <div>
          <FormControl sx={{ width: 300 }}>
@@ -83,11 +84,13 @@ export default function MultipleSelectFieldChip({
                            if (!selectedSchedule) return null;
 
                            const formattedTimeSlot = `${getTimeIn12HourFormat(
-                              selectedSchedule.startDate
+                              selectedSchedule.startDateTime
                            )} - ${getTimeIn12HourFormat(
-                              selectedSchedule.endDate
+                              selectedSchedule.endDateTime
                            )}`;
-
+console.log(
+   selectedSchedule?.endDateTime
+)
                            return (
                               <Chip key={value} label={formattedTimeSlot} />
                            );
@@ -104,8 +107,8 @@ export default function MultipleSelectFieldChip({
                      style={getStyles(schedule.id, selectedScheduleIds, theme)}
                   >
                      {`${getTimeIn12HourFormat(
-                        schedule.startDate
-                     )} - ${getTimeIn12HourFormat(schedule.endDate)}`}
+                        schedule.startDateTime
+                     )} - ${getTimeIn12HourFormat(schedule.endDateTime)}`}
                   </MenuItem>
                ))}
             </Select>

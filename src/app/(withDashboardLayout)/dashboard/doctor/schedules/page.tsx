@@ -22,7 +22,6 @@ const DoctorSchedulesPage = () => {
   const schedules = data?.doctorSchedules;
   const meta = data?.meta;
   let pageCount: number;
-
   if (meta?.total) {
     pageCount = Math.ceil(meta.total / limit);
   }

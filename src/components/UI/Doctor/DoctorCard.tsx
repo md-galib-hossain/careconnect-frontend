@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 const DoctorCard = ({ doctor }: { doctor: Doctor }) => {
    const placeholder =
-      'https://static.vecteezy.com/system/resources/thumbnails/026/489/224/small_2x/muslim-malay-woman-doctor-in-hospital-with-copy-space-ai-generated-photo.jpg';
+      'https://t4.ftcdn.net/jpg/06/32/90/79/360_F_632907942_M6CVHD1ivhUrWK1X49PkBlSH3ooNPsog.jpg';
 
    return (
       <Stack direction='row' gap={2}>
