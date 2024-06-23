@@ -22,9 +22,8 @@ const TopRatedDoctors = async () => {
     <Box
       sx={{
         my: 10,
-        py: 30,
-        backgroundColor: "rgba(20, 20, 20, 0.1)",
-        clipPath: "polygon(0 0, 100% 25%, 100% 100%, 0 75%)",
+        py: 10,
+        
       }}
     >
       <Box sx={{ textAlign: "center" }}>
@@ -87,8 +86,8 @@ objectFit : "cover"
                     paddingBottom: "20px",
                   }}
                 >
-                  <Button>Book Now</Button>
-                  <Button variant="outlined">View Profile</Button>
+                  {/* <Button>Book Now</Button> */}
+                  <Button component={Link} href={`doctors/${doctor?.id}`} variant="outlined">View Profile</Button>
                 </CardActions>
               </Card>
             </Grid>

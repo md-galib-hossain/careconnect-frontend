@@ -11,9 +11,11 @@ type TInputProps = {
     sx? : SxProps;
     placeholder?:string;
     required? : boolean
-
+    multiline?: boolean;
+    rows?: number;
 }
-const CCInput = ({name,label,type = "text",size = "small",fullWidth,sx,placeholder,required} : TInputProps) => {
+const CCInput = ({name,label,type = "text",size = "small",fullWidth,sx,placeholder,required,multiline = false,
+  rows} : TInputProps) => {
     const {control} = useFormContext()
   return (
     <Controller
@@ -34,6 +36,8 @@ const CCInput = ({name,label,type = "text",size = "small",fullWidth,sx,placehold
          required={required}
          error={!!error?.message} //it will confirm if there is error & its recieve only boolean
          helperText={error?.message} //showing error text
+         multiline={multiline}
+         rows={multiline ? rows : undefined}
          />
         )}
       />

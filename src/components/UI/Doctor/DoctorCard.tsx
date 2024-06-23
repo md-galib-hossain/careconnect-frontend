@@ -78,11 +78,11 @@ const DoctorCard = ({ doctor }: { doctor: Doctor }) => {
                         Per consultation
                      </Typography>
                   </Box>
-                  <Box>
+                  {/* <Box>
                      <Link href={`/checkout/${doctor?.id}`}>
                         <Button>Book Now</Button>
                      </Link>
-                  </Box>
+                  </Box> */}
                </Stack>
             </Stack>
          </Stack>

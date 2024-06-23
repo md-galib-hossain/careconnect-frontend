@@ -66,11 +66,11 @@ const PatientAppointmentsPage = () => {
          align: 'center',
          renderCell: ({ row }) => {
             return (
-               <Link href={`/video?videoCallingId=${row?.videoCallingId}`}>
-                  <IconButton>
-                     <VideocamIcon />
+             
+                  <IconButton disabled={row.paymentStatus === 'UNPAID'} component={Link} href={`/video?videoCallingId=${row?.videoCallingId}`}>
+                     <VideocamIcon sx={{color : row.paymentStatus === 'PAID' ? 'primary.main' : ''}}/>
                   </IconButton>
-               </Link>
+             
             );
          },
       },

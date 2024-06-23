@@ -12,14 +12,13 @@ export const storeUserInfo = (accessToken:string) => {
 };
 
 export const getUserInfo = () => {
-  const authToken : string | any = getFromLocalStorage(authKey);
+  const authToken: string | any = getFromLocalStorage(authKey);
   
   if (authToken && authToken !== 'undefined') {
     const decodedData: any = decodedToken(authToken);
     return { ...decodedData, role: decodedData?.role?.toLowerCase() };
-  }else{
-    return ""
-
+  } else {
+    return null;
   }
 };
 

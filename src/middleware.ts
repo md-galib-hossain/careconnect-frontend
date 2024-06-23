@@ -30,9 +30,13 @@ export function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL("/login", request.url));
     }
   }
-  if (accessToken && commonPrivateRoutes.includes(pathname)) {
+  if (
+    accessToken &&
+    (commonPrivateRoutes.includes(pathname) ||
+       commonPrivateRoutes.some((route) => pathname.startsWith(route)))
+ ) {
     return NextResponse.next();
-  }
+ }
 
   let decodedData = null;
   if (accessToken) {
@@ -63,5 +67,5 @@ export function middleware(request: NextRequest) {
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ["/login", "/register", "/dashboard/:page*"],
+  matcher: ["/login", "/register", "/dashboard/:page*","/doctors/:page*"],
 };
