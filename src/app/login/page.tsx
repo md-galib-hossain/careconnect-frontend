@@ -74,7 +74,7 @@ const [error,setError] = useState("")
               alignItems: "center",
             }}
           >
-            <Box>
+            <Box component={Link} href={"/"}>
               <Image src={assets.svgs.logo} width={50} height={50} alt="logo" />
             </Box>
             <Box>

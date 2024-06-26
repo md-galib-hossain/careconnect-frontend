@@ -23,7 +23,6 @@ const TopRatedDoctors = async () => {
       sx={{
         my: 10,
         py: 10,
-        
       }}
     >
       <Box sx={{ textAlign: "center" }}>
@@ -43,21 +42,23 @@ const TopRatedDoctors = async () => {
         }}
       >
         {/* parent grid for doctors card */}
-        <Grid container spacing={2} my={5}>
+        <Grid container spacing={2} my={5} justifyContent={"center"}>
           {topRatedDoctors.map((doctor: TDoctor) => (
             // grid items
-            <Grid item key={doctor?.id} md={4}>
-              <Card>
-                <Box sx={{
-                  width : "100%",
-                  height :300,
-                  '& img' : {
-width : "100%",
-height : "100%",
-overflow : "hidden",
-objectFit : "cover"
-                  }
-                }}>
+            <Grid item key={doctor?.id} md={4} >
+              <Card sx={{ width: 345 }}>
+                <Box
+                  sx={{
+                    width: "100%",
+                    height: 300,
+                    "& img": {
+                      width: "100%",
+                      height: "100%",
+                      overflow: "hidden",
+                      objectFit: "cover",
+                    },
+                  }}
+                >
                   <Image
                     width={500}
                     height={500}
@@ -87,7 +88,9 @@ objectFit : "cover"
                   }}
                 >
                   {/* <Button>Book Now</Button> */}
-                  <Button component={Link} href={`doctors/${doctor?.id}`} variant="outlined">View Profile</Button>
+                  <Button component={Link} href={`doctors/${doctor?.id}`} variant="outlined">
+                    View Profile
+                  </Button>
                 </CardActions>
               </Card>
             </Grid>
@@ -98,7 +101,9 @@ objectFit : "cover"
             textAlign: "center",
           }}
         >
-          <Button variant="outlined" component={Link} href='/doctors'>View All</Button>
+          <Button variant="outlined" component={Link} href="/doctors">
+            View All
+          </Button>
         </Box>
       </Container>
     </Box>

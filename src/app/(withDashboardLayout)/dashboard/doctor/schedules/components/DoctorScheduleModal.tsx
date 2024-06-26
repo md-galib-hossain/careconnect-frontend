@@ -27,6 +27,7 @@ const DoctorScheduleModal = ({ open, setOpen }: TProps) => {
   console.log(selectedScheduleIds);
   const query: Record<string, unknown> = {};
   if (!!selectedDate) {
+    query["limit"] = 48,
     query["startDateTime"] = dayjs(selectedDate)
       .hour(0)
       .minute(0)

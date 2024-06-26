@@ -4,9 +4,13 @@ import { authKey } from '@/constants/authKey';
 import { cookies } from 'next/headers';
 
 import { redirect } from 'next/navigation';
+import { getUserInfo } from '../auth.services';
+import { decodedToken } from '@/utils/jwt';
+import { jwtDecode } from 'jwt-decode';
 
-const setAccessToken = (token: string, option?: any) => {
+const setAccessToken =async (token: string, option?: any) => {
    cookies().set(authKey, token);
+  
    if (option && option.passwordChangeRequired) {
       redirect('/dashboard/change-password');
    }

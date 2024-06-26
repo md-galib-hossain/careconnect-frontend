@@ -3,13 +3,14 @@ import Image from "next/image";
 import Link from "next/link";
 
 const Specialist = async () => {
-  const res = await fetch("http://localhost:5000/api/v1/specialties/", {
+  const res = await fetch("http://localhost:5000/api/v1/specialties/?limit=6", {
     next: {
       revalidate: 30,
     },
   });
 
-  const { data: specialties } = await res.json();
+  const { data } = await res.json();
+  const specialties = data.data
 
   return (
     <Container>
@@ -32,7 +33,7 @@ const Specialist = async () => {
           </Typography>
         </Box>
         <Grid container gap={2} my={5} justifyContent={"center"}>
-          {specialties
+          {specialties && specialties
             ?.slice(0, 6)
             .map((speciality: { id: string; title: string; icon: string }) => (
               <Grid item md={1.5} xs={5} sm={5}
@@ -43,7 +44,7 @@ const Specialist = async () => {
                  
                   width: "140px",
                   backgroundColor: "rgba(245, 245, 245, 1)",
-                  border: "1px solid rgba(205, 250, 250, 1)",
+                  border: "1px solid rgba(5, 130, 202, 0.3)",
                   borderRadius: "10px",
                   textAlign: "center",
                   padding: "40px 10px",
@@ -53,7 +54,7 @@ const Specialist = async () => {
                     margin: "0 auto",
                   },
                   "&:hover": {
-                    border: "1px solid blue",
+                    border: "1px solid rgba(5, 130, 202, 1)",
                     padding: "40px 10px",
                     borderRadius: "10px",
                   },

@@ -46,7 +46,7 @@ const WhyUs = () => {
             Why Choose Us
           </Typography>
         </Box>
-        <Grid container spacing={2} my={5} alignItems="center">
+        <Grid container spacing={2} my={5} alignItems="center" justifyContent={"center"}>
           <Grid item md={6}>
             <Box
               sx={{
@@ -168,11 +168,11 @@ const WhyUs = () => {
               </Box>
             </Box>
           </Grid>
-          <Grid item md={6}>
+          <Grid item md={5}>
             <Box
               sx={{
                 display: "flex",
-                justifyContent: "end",
+                justifyContent: "center",
                 alignItems: "center",
               }}
             >

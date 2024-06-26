@@ -2,7 +2,7 @@ import { USER_ROLE } from "@/constants/role";
 import { SvgIconTypeMap } from "@mui/material";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 
-export type IMeta = {
+export type TMeta = {
   page: number;
   limit: number;
   total: number;
@@ -20,7 +20,7 @@ export interface DrawerItem {
 
 export type ResponseSuccessType = {
   data: any;
-  meta?: IMeta;
+  meta?: TMeta;
 };
 
 export type IGenericErrorResponse = {

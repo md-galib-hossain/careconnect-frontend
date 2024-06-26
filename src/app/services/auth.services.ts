@@ -6,6 +6,8 @@ import {
   removeFromLocalStorage,
   setToLocalStorage,
 } from "@/utils/local-storage";
+import { JwtPayload } from "jwt-decode";
+import { cookies } from "next/headers";
 
 export const storeUserInfo = (accessToken:string) => {
   return setToLocalStorage(authKey, accessToken);
@@ -42,5 +44,7 @@ export const getNewAccessToken = async () => {
      withCredentials: true,
   });
 };
+
+
 
 

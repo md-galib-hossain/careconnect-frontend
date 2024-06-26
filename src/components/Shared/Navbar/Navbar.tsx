@@ -92,7 +92,7 @@ const Navbar = () => {
                 Medicine
               </MenuItem>
               {user && (
-                <MenuItem component={Link} href="/dashboard" onClick={handleCloseNavMenu}>
+                <MenuItem component={Link} href={`/dashboard/${user?.role}`} onClick={handleCloseNavMenu}>
                   Dashboard
                 </MenuItem>
               )}
@@ -107,7 +107,7 @@ const Navbar = () => {
           {user && (
               <Typography
                 component={Link}
-                href="/dashboard"
+                href={`/dashboard/${user?.role}`}
                 sx={{
                   color: 'inherit',
                   textDecoration: 'none',

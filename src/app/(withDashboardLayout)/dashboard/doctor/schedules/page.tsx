@@ -1,5 +1,5 @@
 "use client";
-import { Box, Button, IconButton, Pagination } from "@mui/material";
+import { Box, Button, IconButton, Select, MenuItem } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import DoctorScheduleModal from "./components/DoctorScheduleModal";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -9,40 +9,41 @@ import { ISchedule } from "@/types/schedule";
 import { dateFormatter } from "@/utils/dateFormatter";
 import dayjs from "dayjs";
 import AddIcon from "@mui/icons-material/Add";
+import CCPagination from "@/components/Shared/CCPagination/CCPagination";
+import usePagination from "@/hooks/usePagination";
+
 const DoctorSchedulesPage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [allSchedule, setAllSchedule] = useState<any>([]);
-  const query: Record<string, any> = {};
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(3);
-  query["page"] = page;
-  query["limit"] = limit;
+  const [totalItems, setTotalItems] = useState<number>(0);
 
-  const { data, isLoading } = useGetAllDoctorSchedulesQuery({ ...query });
-  const schedules = data?.doctorSchedules;
-  const meta = data?.meta;
-  let pageCount: number;
-  if (meta?.total) {
-    pageCount = Math.ceil(meta.total / limit);
-  }
+  // Initialize the pagination hook
+  const { page, limit, pageCount, handleChangePage, handleChangeLimit } = usePagination({
+    initialPage: 1,
+    initialLimit: 5,
+    totalItems,
+  });
 
-  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
-    setPage(value);
-  };
+  // Fetch data using the current page and limit from the hook
+  const { data, isLoading } = useGetAllDoctorSchedulesQuery({ page, limit });
 
   useEffect(() => {
-    const startIndex = ((meta?.page as number) - 1) * limit + 1;
-    const updateData = schedules?.map((schedule: ISchedule, index: number) => {
-      return {
+    if (data?.meta?.total) {
+      setTotalItems(data.meta.total);
+    }
+
+    if (data?.doctorSchedules) {
+      const startIndex = ((data.meta.page as number) - 1) * limit + 1;
+      const updateData = data.doctorSchedules.map((schedule: ISchedule, index: number) => ({
         sl: startIndex + index,
-        id: schedule?.scheduleId,
-        startDate: dateFormatter(schedule?.schedule?.startDateTime),
-        startTime: dayjs(schedule?.schedule?.startDateTime).format("hh:mm a"),
-        endTime: dayjs(schedule?.schedule?.endDateTime).format("hh:mm a"),
-      };
-    });
-    setAllSchedule(updateData);
-  }, [schedules]);
+        id: schedule.scheduleId,
+        startDate: dateFormatter(schedule.schedule.startDateTime),
+        startTime: dayjs(schedule.schedule.startDateTime).format("hh:mm a"),
+        endTime: dayjs(schedule.schedule.endDateTime).format("hh:mm a"),
+      }));
+      setAllSchedule(updateData);
+    }
+  }, [data, limit]);
 
   const columns: GridColDef[] = [
     { field: "sl", headerName: "SL", flex: 1 },
@@ -55,15 +56,14 @@ const DoctorSchedulesPage = () => {
       flex: 1,
       headerAlign: "center",
       align: "center",
-      renderCell: ({ row }) => {
-        return (
-          <IconButton aria-label="delete">
-            <DeleteIcon sx={{ color: "red" }} />
-          </IconButton>
-        );
-      },
+      renderCell: ({ row }) => (
+        <IconButton aria-label="delete">
+          <DeleteIcon sx={{ color: "red" }} />
+        </IconButton>
+      ),
     },
   ];
+
   return (
     <Box>
       <Button onClick={() => setIsModalOpen(true)} endIcon={<AddIcon />}>
@@ -72,34 +72,38 @@ const DoctorSchedulesPage = () => {
       <DoctorScheduleModal open={isModalOpen} setOpen={setIsModalOpen} />
 
       <Box sx={{ mb: 5 }}>
+        
         <Box>
           {!isLoading ? (
             <Box my={2}>
-              <DataGrid
-                rows={allSchedule ?? []}
-                columns={columns}
-                hideFooterPagination
-                slots={{
-                  footer: () => {
-                    return (
-                      <Box
-                        sx={{
-                          mb: 2,
-                          display: "flex",
-                          justifyContent: "center",
-                        }}
-                      >
-                        <Pagination
-                          color="primary"
-                          count={pageCount}
-                          page={page}
-                          onChange={handleChange}
-                        />
-                      </Box>
-                    );
-                  },
-                }}
+              <DataGrid rows={allSchedule ?? []} columns={columns} hideFooter autoHeight />
+           {/* pagination start */}
+              <Box gap={2} display={"flex"} justifyContent={"center"} alignItems={"center"}>
+              <Select
+                disabled={pageCount == 0}
+            value={limit}
+      variant="standard"
+            onChange={(e) => handleChangeLimit(Number(e.target.value))}
+            displayEmpty
+            inputProps={{ 'aria-label': 'Items per page' }}
+          >
+            {[5, 10, 15, 20].map((value) => (
+              <MenuItem key={value} value={value}>
+                {value}
+              </MenuItem>
+            ))}
+          </Select>
+          <Box mb={1}>
+
+              <CCPagination
+                pageCount={pageCount}
+                page={page}
+                handleChange={handleChangePage}
               />
+          </Box>
+              </Box>
+                         {/* pagination end */}
+
             </Box>
           ) : (
             <h1>Loading.....</h1>

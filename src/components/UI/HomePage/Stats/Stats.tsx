@@ -7,13 +7,13 @@ const Stats = () => {
     <Container>
       <Box
         sx={{
-          backgroundImage: "linear-gradient(45deg,blue, cyan)",
+          backgroundImage: "linear-gradient(45deg, blue, cyan)",
           borderRadius: "20px",
           margin: "50px auto",
         }}
       >
         <Grid container spacing={2} textAlign="center" p={5}>
-          <Grid item xs={3}>
+          <Grid item xs={12} sm={3}>
             <Typography
               variant="h3"
               component="h1"
@@ -31,7 +31,7 @@ const Stats = () => {
               Expert Doctors
             </Typography>
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={12} sm={3}>
             <Typography
               variant="h3"
               component="h1"
@@ -49,7 +49,7 @@ const Stats = () => {
               Expert Services
             </Typography>
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={12} sm={3}>
             <Typography
               variant="h3"
               component="h1"
@@ -67,7 +67,7 @@ const Stats = () => {
               Happy Patients
             </Typography>
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={12} sm={3}>
             <Typography
               variant="h3"
               component="h1"

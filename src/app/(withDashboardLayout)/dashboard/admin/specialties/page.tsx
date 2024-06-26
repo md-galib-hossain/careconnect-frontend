@@ -1,7 +1,7 @@
 "use client";
-import { Box, Button, Stack, TextField } from "@mui/material";
+import { useEffect, useState } from "react";
+import { Box, Button, MenuItem, Select, Stack, TextField, useMediaQuery, useTheme, Grid } from "@mui/material";
 import SpecialtyModal from "./components/SpecialtyModal";
-import { useState } from "react";
 import {
   useDeleteSpecialtyMutation,
   useGetAllSpecialtiesQuery,
@@ -12,14 +12,43 @@ import Image from "next/image";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import { toast } from "sonner";
+import usePagination from "@/hooks/usePagination";
+import CCPagination from "@/components/Shared/CCPagination/CCPagination";
+import { useDebounce } from "@/redux/hooks";
 
 const SpecialtiesPage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const { data, isLoading } = useGetAllSpecialtiesQuery({});
+  // search with debounce 6 ms
+  const query: Record<string, any> = {};
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  // search after 6 second delay
+  const debouncedTerm = useDebounce({ searchQuery: searchTerm, delay: 600 });
+  if (debouncedTerm) {
+    query["searchTerm"] = searchTerm;
+  }
+
+  // Initialize the pagination hook
+  const [totalItems, setTotalItems] = useState<number>(0);
+  const { page, limit, pageCount, handleChangePage, handleChangeLimit } = usePagination({
+    initialPage: 1,
+    initialLimit: 5,
+    totalItems,
+  });
+
+  const { data, isLoading } = useGetAllSpecialtiesQuery({ page, limit, ...query });
+
+  useEffect(() => {
+    if (data?.meta?.total) {
+      setTotalItems(data.meta.total);
+    }
+  }, [data]);
+
   const [deleteSpecialty] = useDeleteSpecialtyMutation();
+
   const handleDelete = async (id: string) => {
     try {
-      const res: any = await deleteSpecialty(id).unwrap();;
+      const res: any = await deleteSpecialty(id).unwrap();
       if (res?.id) {
         toast.success(`${res?.title} has been deleted successfully`);
       } else {
@@ -38,7 +67,7 @@ const SpecialtiesPage = () => {
       flex: 1,
       renderCell: ({ row }) => {
         return (
-          <Box>
+          <Box display="flex" justifyContent="center" alignItems="center" height="100%">
             <Image src={row?.icon} width={30} height={30} alt="icon" />
           </Box>
         );
@@ -60,27 +89,46 @@ const SpecialtiesPage = () => {
     },
   ];
 
+  // Media query for responsiveness
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
+
   return (
     <Box>
-      <Stack direction="row" justifyContent="space-between" alignItems="center">
-        <Button onClick={() => setIsModalOpen(!isModalOpen)}>
-          Create Specialty
-        </Button>
+      <Stack direction={isSmallScreen ? "column" : "row"} justifyContent="space-between" alignItems="center" spacing={2}>
+        <Button onClick={() => setIsModalOpen(!isModalOpen)}>Create Specialty</Button>
         <SpecialtyModal open={isModalOpen} setOpen={setIsModalOpen} />
-        <TextField size="small" placeholder="Search Specialties" />
+        <TextField onChange={(e) => setSearchTerm(e.target.value)} size="small" placeholder="Search Specialties" />
       </Stack>
       <Box my={5}>
         Display specialties
         {!isLoading ? (
-          <DataGrid rows={data} columns={columns} />
+          <Box my={2}>
+            <DataGrid rows={data.data} columns={columns} hideFooter sx={{ height: 300 }} />
+            {/* pagination start */}
+            <Box gap={2} display={"flex"} justifyContent={"center"} alignItems={"center"} flexDirection={isSmallScreen ? "column" : "row"}>
+              <Select
+                disabled={pageCount == 0}
+                value={limit}
+                variant="standard"
+                onChange={(e) => handleChangeLimit(Number(e.target.value))}
+                displayEmpty
+                inputProps={{ "aria-label": "Items per page" }}
+              >
+                {[5, 10, 15, 20].map((value) => (
+                  <MenuItem key={value} value={value}>
+                    {value}
+                  </MenuItem>
+                ))}
+              </Select>
+              <Box mb={1}>
+                <CCPagination pageCount={pageCount} page={page} handleChange={handleChangePage} />
+              </Box>
+            </Box>
+            {/* pagination end */}
+          </Box>
         ) : (
-          <Box
-            display="flex"
-            m={10}
-            justifyContent="center"
-            p={10}
-            alignItems="center"
-          >
+          <Box display="flex" m={10} justifyContent="center" p={10} alignItems="center">
             <CircularProgress />
           </Box>
         )}

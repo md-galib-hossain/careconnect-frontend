@@ -1,4 +1,4 @@
-import { IMeta } from "@/types";
+import { TMeta } from "@/types";
 import { tagTypes } from "../tag-Types";
 import { baseApi } from "./baseApi";
 
@@ -20,7 +20,7 @@ const doctorScheduleApi = baseApi.injectEndpoints({
               params: arg,
            };
         },
-        transformResponse: (response: [], meta: IMeta) => {
+        transformResponse: (response: [], meta: TMeta) => {
            return {
               doctorSchedules: response,
               meta,

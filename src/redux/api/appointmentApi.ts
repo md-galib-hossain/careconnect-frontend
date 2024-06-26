@@ -1,6 +1,6 @@
 import { tagTypes } from "../tag-Types";
 import { baseApi } from "./baseApi";
-import { IMeta } from "@/types/common";
+import { TMeta } from "@/types/common";
 
 export const appointmentApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
@@ -20,7 +20,7 @@ export const appointmentApi = baseApi.injectEndpoints({
           params: arg,
         };
       },
-      transformResponse: (response: [], meta: IMeta) => {
+      transformResponse: (response: [], meta: TMeta) => {
         return {
           appointments: response,
           meta,
@@ -36,7 +36,7 @@ export const appointmentApi = baseApi.injectEndpoints({
           params: arg,
         };
       },
-      transformResponse: (response: [], meta: IMeta) => {
+      transformResponse: (response: [], meta: TMeta) => {
         return {
           appointments: response,
           meta,
