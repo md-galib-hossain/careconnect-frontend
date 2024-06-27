@@ -11,6 +11,8 @@ const StyledInformationBox = styled(Box)(({ theme }) => ({
 }));
 
 const DoctorInformation = ({ data }: any) => {
+   const specialties = data?.doctorSpecialties?.map((specialty: any) => specialty.specialties.title).join(', ');
+
    return (
       <>
          <Typography variant='h5' color='primary.main' mb={2}>
@@ -64,7 +66,7 @@ const DoctorInformation = ({ data }: any) => {
          >
             <StyledInformationBox>
                <Typography variant='caption' color='secondary'>
-                  Anointment Fee
+                  Appointment Fee
                </Typography>
                <Typography>{data?.appointmentFee}</Typography>
             </StyledInformationBox>
@@ -73,6 +75,12 @@ const DoctorInformation = ({ data }: any) => {
                   Qualification
                </Typography>
                <Typography>{data?.qualification}</Typography>
+            </StyledInformationBox>
+            <StyledInformationBox>
+               <Typography variant='caption' color='secondary'>
+                  Specialties
+               </Typography>
+               <Typography>{specialties}</Typography>
             </StyledInformationBox>
             <StyledInformationBox>
                <Typography variant='caption' color='secondary'>
@@ -108,7 +116,7 @@ const DoctorInformation = ({ data }: any) => {
             </StyledInformationBox>
             <StyledInformationBox>
                <Typography variant='caption' color='secondary'>
-                  experience
+                  Experience
                </Typography>
                <Typography>{data?.experience}</Typography>
             </StyledInformationBox>

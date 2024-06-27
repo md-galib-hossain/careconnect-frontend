@@ -12,6 +12,7 @@ export const appointmentApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [tagTypes.appointment],
     }),
+   
     getAllAppointments: build.query({
       query: (arg: Record<string, any>) => {
         return {

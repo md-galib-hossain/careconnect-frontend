@@ -48,8 +48,7 @@ export default function DashboardDrawer({
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
-          // background : "#F4F7FE",
-          boxShadow: 0,
+          background: 'linear-gradient(0deg, rgba(5,130,202,1) 0%, rgba(0,166,251,1) 100%)',          boxShadow: 0,
           // borderBottom : "1px solid lightgray"
         }}
       >
@@ -113,7 +112,7 @@ export default function DashboardDrawer({
           onTransitionEnd={handleDrawerTransitionEnd}
           onClose={handleDrawerClose}
           ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
+            keepMounted: true, 
           }}
           sx={{
             display: { xs: "block", sm: "none" },

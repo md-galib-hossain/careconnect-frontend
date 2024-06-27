@@ -22,7 +22,7 @@ export const reviewApi = baseApi.injectEndpoints({
       },
       transformResponse: (response: [], meta: TMeta) => {
         return {
-          appointments: response,
+          reviews: response,
           meta,
         };
       },

@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Box, Button, MenuItem, Select, Stack, TextField, useMediaQuery, useTheme, CircularProgress, IconButton, Chip } from "@mui/material";
+import { Box, Button, MenuItem, Select, Stack, TextField, useMediaQuery, useTheme, CircularProgress, IconButton, Chip, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useGetAllAppointmentsQuery, useDeleteAppointmentMutation } from "@/redux/api/appointmentApi";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -10,6 +10,7 @@ import CCPagination from "@/components/Shared/CCPagination/CCPagination";
 import { useDebounce } from "@/redux/hooks";
 import { TAppointment } from "@/types/appointment";
 import dayjs from "dayjs";
+import CCChips from "@/components/Shared/CCChips/CCChips";
 
 const AppointmentsPage = () => {
   const [allAppointments, setAllAppointments] = useState<any>([]);
@@ -36,7 +37,7 @@ const AppointmentsPage = () => {
     }
 
     // Map appointments to updateData format
-    const updateData = appointments?.map((appointment: TAppointment, index) => {
+    const updateData = appointments?.map((appointment: TAppointment, index : number) => {
       const specialtiesTitle = appointment.doctor.doctorSpecialties?.map((specialty) => specialty.specialties.title).join(", ") || "N/A";
       return {
         id: appointment.id,
@@ -68,16 +69,13 @@ const AppointmentsPage = () => {
       field: "paymentStatus", 
       headerName: "Payment Status", 
       flex: 1, 
-      renderCell: ({ row }) => {
-        const isPaid = row.paymentStatus === "PAID";
-        return (
-          <Chip 
-            label={isPaid ? "Paid" : "Unpaid"} 
-            color={isPaid ? "success" : "error"} 
-            variant={isPaid ? "filled" : "outlined"} 
-          />
-        );
-      } 
+      renderCell: ({ row }) => (
+        row.paymentStatus === 'PAID' ? (
+          <CCChips label={row.paymentStatus} type='success' />
+        ) : (
+          <CCChips label={row.paymentStatus} type='error' />
+        )
+      ),
     },
   ];
 
@@ -86,24 +84,24 @@ const AppointmentsPage = () => {
 
   return (
     <Box>
-      <Stack direction={isSmallScreen ? "column" : "row"} justifyContent="space-between" alignItems="center" spacing={2}>
+      {/* <Stack direction={isSmallScreen ? "column" : "row"} justifyContent="space-between" alignItems="center" spacing={2}>
         <Button onClick={() => setIsModalOpen(!isModalOpen)}>Create Appointment</Button>
         <TextField onChange={(e) => setSearchTerm(e.target.value)} size="small" placeholder="Search Appointments" />
-      </Stack>
+      </Stack> */}
       <Box my={5}>
+      <Typography variant="h4" component="h1" gutterBottom>
+          Appointments
+        </Typography>
         {!isLoading ? (
           <Box my={2}>
             <DataGrid 
               rows={allAppointments} 
               columns={columns} 
               hideFooter 
-              autoHeight 
-              sx={{ 
-                '& .MuiDataGrid-columnHeaders': {
-                  backgroundColor: theme.palette.background.default,
-                },
-              }} 
+              sx={{ height: 318 }} 
+            
             />
+            {/* pagination */}
             <Box gap={2} display={"flex"} justifyContent={"center"} alignItems={"center"} flexDirection={isSmallScreen ? "column" : "row"}>
               <Select
                 disabled={pageCount === 0}

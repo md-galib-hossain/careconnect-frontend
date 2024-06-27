@@ -46,13 +46,16 @@ const ProfileUpdateModal = ({ open, setOpen, id }: TProps) => {
     isLoading,
     isSuccess,
   } = useGetSingleDoctorQuery(id);
-  const { data: allSpecialties } = useGetAllSpecialtiesQuery({});
+  const { data } = useGetAllSpecialtiesQuery({limit : 100});
   const [updateDoctor, { isLoading: updating }] = useUpdateDoctorMutation();
   const [selectedSpecialtiesIds, setSelectedSpecialtiesIds] = useState([]);
-
+  // const allSpecialties = data.data
   if (isLoading) {
     <p>loading...</p>;
   }
+  const allSpecialties = data?.data
+  console.log(allSpecialties)
+  console.log({doctorData})
 
   //setting updated specialties id after update
   useEffect(() => {
@@ -93,8 +96,10 @@ const ProfileUpdateModal = ({ open, setOpen, id }: TProps) => {
     updatedValues.specialties = specialties;
 
     try {
-      const res = await updateDoctor({ body: updatedValues, id }).unwrap();
-      if (res?.id) {
+   
+      const res = await updateDoctor({ body: updatedValues, id }).unwrap()
+      
+      if (res.id) {
         toast.success("Doctor profile updated");
         refetch();
         setOpen(!open);

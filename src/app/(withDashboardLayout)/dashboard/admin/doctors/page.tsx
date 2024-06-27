@@ -1,5 +1,5 @@
 "use client"
-import { Box, Button, CircularProgress, IconButton, MenuItem, Select, Stack, TextField, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Button, CircularProgress, IconButton, MenuItem, Select, Stack, TextField, Typography, useMediaQuery, useTheme } from "@mui/material";
 import DoctorModal from "./components/DoctorModal";
 import { useEffect, useState } from "react";
 import { useDeleteDoctorMutation, useGetAllDoctorsQuery } from "@/redux/api/doctorsApi";
@@ -95,7 +95,9 @@ const DoctorsPage = () => {
         <TextField onChange={(e) => setSearchTerm(e.target.value)} size="small" placeholder="Search Specialties" />
       </Stack>
       <Box my={5}>
-        Display Doctors
+      <Typography variant="h4" component="h1" gutterBottom>
+          Doctors
+        </Typography>
         {!isLoading ? (
           <Box my={2}>
             <DataGrid rows={doctors} columns={columns} hideFooter sx={{ height: 300 }} />

@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Box, Button, MenuItem, Select, Stack, TextField, useMediaQuery, useTheme, Grid } from "@mui/material";
+import { Box, Button, MenuItem, Select, Stack, TextField, useMediaQuery, useTheme, Grid, Typography } from "@mui/material";
 import SpecialtyModal from "./components/SpecialtyModal";
 import {
   useDeleteSpecialtyMutation,
@@ -101,7 +101,9 @@ const SpecialtiesPage = () => {
         <TextField onChange={(e) => setSearchTerm(e.target.value)} size="small" placeholder="Search Specialties" />
       </Stack>
       <Box my={5}>
-        Display specialties
+      <Typography variant="h4" component="h1" gutterBottom>
+          Specialties
+        </Typography>
         {!isLoading ? (
           <Box my={2}>
             <DataGrid rows={data.data} columns={columns} hideFooter sx={{ height: 300 }} />

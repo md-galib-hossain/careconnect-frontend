@@ -8,14 +8,14 @@ export type TMeta = {
   total: number;
 };
 
-export type UserRole = keyof typeof USER_ROLE;
+export type TUserRole = keyof typeof USER_ROLE;
 
-export interface DrawerItem {
+export interface TDrawerItem {
   title: string;
   path: string;
   parentPath?: string;
   icon?: OverridableComponent<SvgIconTypeMap<{}, "svg">> & { muiName: string };
-  child?: DrawerItem[];
+  child?: TDrawerItem[];
 }
 
 export type ResponseSuccessType = {

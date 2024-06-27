@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Button, IconButton, MenuItem, Select, Stack, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Button, IconButton, MenuItem, Select, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
 import ScheduleModal from "./components/ScheduleModal";
 import { useDeleteScheduleMutation, useGetAllSchedulesQuery } from "@/redux/api/scheduleApi";
@@ -90,7 +90,9 @@ const SchedulesPage = () => {
         <ScheduleModal open={isModalOpen} setOpen={setIsModalOpen} />
       </Stack>
       <Box my={5}>
-        Display Schedules
+      <Typography variant="h4" component="h1" gutterBottom>
+          Schedules
+        </Typography>
         {!isLoading ? (
           <Box my={2}>
             <DataGrid rows={allSchedule ?? []} columns={columns} hideFooter sx={{ height: 318 }} />
