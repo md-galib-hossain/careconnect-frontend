@@ -54,7 +54,7 @@ const AppointmentsPage = () => {
     });
 
     setAllAppointments(updateData || []);
-  }, [data]);
+  }, [data,meta?.total,appointments]);
 
   const columns: GridColDef[] = [
     { field: "sl", headerName: "Serial No.", width: 100 },

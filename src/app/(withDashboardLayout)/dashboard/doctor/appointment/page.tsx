@@ -31,7 +31,7 @@ const PatientAppointmentsPage = () => {
     if (meta?.total) {
       setTotalItems(meta.total);
     }
-  }, [data]);
+  }, [data,meta?.total]);
 
   const handleStatusUpdate = async (row: any, status: string) => {
     console.log({ id: row.id, status });

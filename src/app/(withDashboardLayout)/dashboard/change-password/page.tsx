@@ -12,13 +12,11 @@ import logoutUser from '@/app/services/actions/logoutUser';
 import CCInput from '@/components/Forms/CCInput';
 import CCForm from '@/components/Forms/CCForm';
 import { useChangePasswordMutation } from '@/redux/api/authApi';
+import { changeValidationSchema } from './validation';
 type TRes ={
    message : string
 } | any
-const validationSchema = z.object({
-   oldPassword: z.string().min(6, 'Must be at least 6 characters long'),
-   newPassword: z.string().min(6, 'Must be at least 6 characters long'),
-});
+
 
 const ChangePassword = () => {
    const [changePassword] = useChangePasswordMutation();
@@ -74,7 +72,7 @@ const ChangePassword = () => {
          <CCForm
             onSubmit={onSubmit}
             defaultValues={{ oldPassword: '', newPassword: '' }}
-            resolver={zodResolver(validationSchema)}
+            resolver={zodResolver(changeValidationSchema)}
          >
             <Grid>
                <Grid item xs={12} sm={12} md={6}>

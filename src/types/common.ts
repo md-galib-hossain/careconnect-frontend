@@ -18,7 +18,7 @@ export interface TDrawerItem {
   child?: TDrawerItem[];
 }
 
-export type ResponseSuccessType = {
+export type TResponseSuccessType = {
   data: any;
   meta?: TMeta;
 };

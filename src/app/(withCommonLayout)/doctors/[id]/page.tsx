@@ -24,7 +24,7 @@ const InfoBoxStyles = {
 
 const DoctorsProfilePage = async ({ params }: PropTypes) => {
     try {
-        const res = await fetch(`http://localhost:5000/api/v1/doctor/${params.id}`);
+        const res = await fetch(`https://care-connect-backend.vercel.app/api/v1/doctor/${params.id}`);
         if (!res.ok) {
             throw new Error('Failed to fetch doctor data');
         }

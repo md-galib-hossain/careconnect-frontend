@@ -79,7 +79,7 @@ const PatientAppointmentsPage = () => {
     if (meta?.total) {
       setTotalItems(meta.total);
     }
-  }, [data]);
+  }, [data,meta?.total]);
   const handleRatingClick = async (
     appointmentId: string,
     rating: number | null

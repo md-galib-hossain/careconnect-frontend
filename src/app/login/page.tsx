@@ -21,11 +21,9 @@ import CCForm from "@/components/Forms/CCForm";
 import CCInput from "@/components/Forms/CCInput";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { loginValidationSchema } from "./loginValidation";
 
-export const validationSchema = z.object({
-  email : z.string().email("Please enter a valid email address!") ,
-  password : z.string().min(6,"Must be at least 6 characters")
-})
+
 
 
 const LoginPage = () => {
@@ -102,7 +100,7 @@ const [error,setError] = useState("")
 
           {/* */}
           <Box>
-            <CCForm onSubmit={handleLogin} resolver={zodResolver(validationSchema)}
+            <CCForm onSubmit={handleLogin} resolver={zodResolver(loginValidationSchema)}
             defaultValues={{
               email : "",
               password : ""

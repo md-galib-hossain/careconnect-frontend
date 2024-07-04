@@ -14,10 +14,9 @@ import { authKey } from '@/constants/authKey';
 import deleteCookies from '@/app/services/actions/deleteCookies';
 import CCForm from '@/components/Forms/CCForm';
 import CCInput from '@/components/Forms/CCInput';
+import { resetValidationSchema } from './validation';
 
-const validationSchema = z.object({
-   newPassword: z.string().min(6, 'Must be at least 6 characters long'),
-});
+
 const ResetPassword = () => {
    const searchParams = useSearchParams();
    const id = searchParams.get('id');
@@ -82,7 +81,7 @@ console.log(res)
          <CCForm
             onSubmit={onSubmit}
             defaultValues={{ newPassword: '' }}
-            resolver={zodResolver(validationSchema)}
+            resolver={zodResolver(resetValidationSchema)}
          >
             <Grid>
                <Grid item xs={12} sm={12} md={6}>

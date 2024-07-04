@@ -12,10 +12,9 @@ import { toast } from 'sonner';
 import CheckIcon from '@mui/icons-material/Check';
 import CCInput from '@/components/Forms/CCInput';
 import CCForm from '@/components/Forms/CCForm';
+import { forgotValidationSchema } from './validation';
 
-const validationSchema = z.object({
-   email: z.string().email('Please enter a valid email address!'),
-});
+
 
 const ForgotPassword = () => {
    const [forgotPassword, { isSuccess }] = useForgotPasswordMutation();
@@ -82,7 +81,7 @@ console.log(res)
                <CCForm
                   onSubmit={onSubmit}
                   defaultValues={{ email: '' }}
-                  resolver={zodResolver(validationSchema)}
+                  resolver={zodResolver(forgotValidationSchema)}
                >
                   <Grid>
                      <Grid item xs={12} sm={12} md={6}>

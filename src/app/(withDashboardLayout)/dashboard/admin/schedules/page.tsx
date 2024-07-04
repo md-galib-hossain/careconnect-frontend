@@ -45,7 +45,7 @@ const SchedulesPage = () => {
       };
     });
     setAllSchedule(updateData);
-  }, [data]);
+  }, [data,meta?.total,schedules]);
 
   // Delete
   const handleDelete = async (id: string) => {

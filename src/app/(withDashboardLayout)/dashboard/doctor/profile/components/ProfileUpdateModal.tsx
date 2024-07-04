@@ -15,29 +15,14 @@ import { useGetAllSpecialtiesQuery } from "@/redux/api/specialtiesApi";
 import { toast } from "sonner";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { doctorProfileValidationSchema } from "./validation";
 type TProps = {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   id: string;
 };
 
-const validationSchema = z.object({
-  experience: z.preprocess(
-    (x) => (x ? x : undefined),
-    z.coerce.number().int().optional()
-  ),
-  apointmentFee: z.preprocess(
-    (x) => (x ? x : undefined),
-    z.coerce.number().int().optional()
-  ),
-  name: z.string().optional(),
-  contactNumber: z.string().optional(),
-  registrationNumber: z.string().optional(),
-  gender: z.string().optional(),
-  qualification: z.string().optional(),
-  currentWorkingPlace: z.string().optional(),
-  designation: z.string().optional(),
-});
+
 
 const ProfileUpdateModal = ({ open, setOpen, id }: TProps) => {
   const {
@@ -65,7 +50,7 @@ const ProfileUpdateModal = ({ open, setOpen, id }: TProps) => {
     setSelectedSpecialtiesIds(
       doctorData?.doctorSpecialties.map((sp: any) => sp.specialtiesId)
     );
-  }, [isSuccess]);
+  }, [isSuccess,doctorData?.doctorSpecialties]);
 
   const submitHandler = async (values: FieldValues) => {
     const specialties = selectedSpecialtiesIds.map((specialtiesId: string) => ({
@@ -116,7 +101,7 @@ const ProfileUpdateModal = ({ open, setOpen, id }: TProps) => {
       <CCForm
         onSubmit={submitHandler}
         defaultValues={doctorData}
-        resolver={zodResolver(validationSchema)}
+        resolver={zodResolver(doctorProfileValidationSchema)}
       >
         <Grid container spacing={2} my={2}>
           <Grid item xs={12} sm={12} md={4}>

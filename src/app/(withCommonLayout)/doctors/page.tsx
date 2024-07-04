@@ -14,10 +14,10 @@ const Doctors = async ({ searchParams }: PropType) => {
   let res;
   if (searchParams.specialties) {
     res = await fetch(
-      `http://localhost:5000/api/v1/doctor?specialties=${searchParams?.specialties}`
+      `https://care-connect-backend.vercel.app/api/v1/doctor?specialties=${searchParams?.specialties}`
     );
   } else {
-    res = await fetch("http://localhost:5000/api/v1/doctor");
+    res = await fetch("https://care-connect-backend.vercel.app/api/v1/doctor");
   }
 
   const { data } = await res.json();

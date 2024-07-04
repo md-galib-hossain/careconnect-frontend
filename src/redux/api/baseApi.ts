@@ -5,7 +5,7 @@ import { tagTypeList } from '../tag-Types'
 
 export const baseApi = createApi({
   reducerPath: 'api',
-  baseQuery: axiosBaseQuery({ baseUrl: 'http://localhost:5000/api/v1' }),
+  baseQuery: axiosBaseQuery({ baseUrl: 'https://care-connect-backend.vercel.app/api/v1' }),
   endpoints: () => ({
    
   

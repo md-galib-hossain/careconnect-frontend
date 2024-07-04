@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import React, { useEffect, useState } from "react";
 import { AppBar, Box, Container, IconButton, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
@@ -17,6 +17,7 @@ const Navbar = () => {
     const userFromStorage = getUserInfo();
     setUser(userFromStorage);
   }, []);
+  
   const router = useRouter();
 
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -29,9 +30,7 @@ const Navbar = () => {
     setAnchorElNav(null);
   };
 
-  const handleLogout = () => {
-    logoutUser(router);
-  };
+ 
 
   return (
     <AppBar position="static" color="transparent" elevation={0}>
@@ -46,8 +45,8 @@ const Navbar = () => {
               display: { xs: 'flex', md: 'flex' },
               color: 'inherit',
               textDecoration: 'none',
-              flexGrow: { xs: 1, md: 0 },
-             
+              flexGrow: 0,
+              marginRight: 'auto', // Aligns to the left
             }}
           >
             Care{" "}
@@ -56,58 +55,75 @@ const Navbar = () => {
             </Box>
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, justifyContent: 'flex-end' }}>
-            <IconButton
-              size="large"
-              aria-label="menu"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' },
-              }}
-            >
-              <MenuItem component={Link} href="/healthplans" onClick={handleCloseNavMenu}>
-                Health Plans
-              </MenuItem>
-              <MenuItem component={Link} href="/medicine" onClick={handleCloseNavMenu}>
-                Medicine
-              </MenuItem>
-              {user && (
-                <MenuItem component={Link} href={`/dashboard/${user?.role}`} onClick={handleCloseNavMenu}>
-                  Dashboard
+          <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>
+            <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+              <IconButton
+                size="large"
+                aria-label="menu"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleOpenNavMenu}
+                color="inherit"
+              >
+                <MenuIcon />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorElNav}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'left',
+                }}
+                open={Boolean(anchorElNav)}
+                onClose={handleCloseNavMenu}
+                sx={{
+                  display: { xs: 'block', md: 'none' },
+                }}
+              >
+                <MenuItem component={Link} href="/healthplans" onClick={handleCloseNavMenu}>
+                  Health Plans
                 </MenuItem>
-              )}
-              <MenuItem onClick={handleCloseNavMenu}>
-                <AuthButton />
-              </MenuItem>
-            </Menu>
-          </Box>
+                <MenuItem component={Link} href="/medicine" onClick={handleCloseNavMenu}>
+                  Medicine
+                </MenuItem>
+                {user && (
+                  <MenuItem component={Link} href={`/dashboard/${user?.role}`} onClick={handleCloseNavMenu}>
+                    Dashboard
+                  </MenuItem>
+                )}
+                <MenuItem onClick={handleCloseNavMenu}>
+                  <AuthButton />
+                </MenuItem>
+              </Menu>
+            </Box>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'center' }}>
-            
-          {user && (
+            <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center' }}>
+              {user && (
+                <Typography
+                  component={Link}
+                  href={`/dashboard/${user?.role}`}
+                  sx={{
+                    color: 'inherit',
+                    textDecoration: 'none',
+                    mx: 2,
+                    '&:hover': {
+                      color: 'primary.main',
+                      transform: 'scale(1.1)',
+                    },
+                    transition: 'color 0.3s, transform 0.3s',
+                  }}
+                >
+                  Dashboard
+                </Typography>
+              )}
               <Typography
                 component={Link}
-                href={`/dashboard/${user?.role}`}
+                href="/healthplans"
                 sx={{
                   color: 'inherit',
                   textDecoration: 'none',
@@ -119,46 +135,29 @@ const Navbar = () => {
                   transition: 'color 0.3s, transform 0.3s',
                 }}
               >
-                Dashboard
+                Health Plans
               </Typography>
-            )}
-            <Typography
-              component={Link}
-              href="/healthplans"
-              sx={{
-                color: 'inherit',
-                textDecoration: 'none',
-                mx: 2,
-                '&:hover': {
-                  color: 'primary.main',
-                  transform: 'scale(1.1)',
-                },
-                transition: 'color 0.3s, transform 0.3s',
-              }}
-            >
-              Health Plans
-            </Typography>
-            <Typography
-              component={Link}
-              href="/medicine"
-              sx={{
-                color: 'inherit',
-                textDecoration: 'none',
-                mx: 2,
-                '&:hover': {
-                  color: 'primary.main',
-                  transform: 'scale(1.1)',
-                },
-                transition: 'color 0.3s, transform 0.3s',
-              }}
-            >
-              Medicine
-            </Typography>
-           
-          </Box>
+              <Typography
+                component={Link}
+                href="/medicine"
+                sx={{
+                  color: 'inherit',
+                  textDecoration: 'none',
+                  mx: 2,
+                  '&:hover': {
+                    color: 'primary.main',
+                    transform: 'scale(1.1)',
+                  },
+                  transition: 'color 0.3s, transform 0.3s',
+                }}
+              >
+                Medicine
+              </Typography>
+            </Box>
 
-          <Box sx={{ display: { xs: 'none', md: 'flex' }, justifyContent: 'flex-end' }}>
-            <AuthButton />
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+              <AuthButton />
+            </Box>
           </Box>
         </Toolbar>
       </Container>

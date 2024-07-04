@@ -39,7 +39,7 @@ const DoctorsPage = () => {
     if (meta?.total) {
       setTotalItems(meta.total);
     }
-  }, [data]);
+  }, [data,meta?.total]);
 
   // Delete
   const handleDelete = async (id: string) => {
