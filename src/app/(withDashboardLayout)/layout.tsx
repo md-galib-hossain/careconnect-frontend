@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import DashboardDrawer from "@/components/Dashboard/DashboardDrawer/DashboardDrawer";
 import { isLoggedIn } from "../services/auth.services";
 import { useRouter } from "next/navigation";
@@ -12,6 +12,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
       router.push("/login");
     }
   }, [router]);
+
 
   return (
     <DashboardDrawer>{children}</DashboardDrawer>

@@ -37,8 +37,8 @@ const doctorsApi = baseApi.injectEndpoints({
       invalidatesTags: [tagTypes.doctor],
     }),
     getSingleDoctor: build.query({
-      query: (id: string) => ({
-        url: `/doctor/${id}`,
+      query: (data: any) => ({
+        url: `/doctor/${data.id}`,
         method: "GET",
       }),
 
