@@ -1,18 +1,21 @@
 "use client"
-import DashboardDrawer from "@/components/Dashboard/DashboardDrawer/DashboardDrawer"
-import React from "react"
-import { isLoggedIn } from "../services/auth.services"
-import { useRouter } from "next/navigation"
+import React, { useEffect } from "react";
+import DashboardDrawer from "@/components/Dashboard/DashboardDrawer/DashboardDrawer";
+import { isLoggedIn } from "../services/auth.services";
+import { useRouter } from "next/navigation";
 
-const DashboardLayout = ({children} : {children : React.ReactNode}) => {
-  const router = useRouter()
-  if(!isLoggedIn()){
+const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
+  const router = useRouter();
 
-    return router.push("/login")
-  }
+  useEffect(() => {
+    if (!isLoggedIn()) {
+      router.push("/login");
+    }
+  }, [router]);
+
   return (
     <DashboardDrawer>{children}</DashboardDrawer>
-  )
-}
+  );
+};
 
-export default DashboardLayout
+export default DashboardLayout;
