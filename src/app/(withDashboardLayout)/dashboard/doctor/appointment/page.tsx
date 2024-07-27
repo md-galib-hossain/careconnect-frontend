@@ -1,6 +1,6 @@
 "use client"
 import { useState, useEffect } from 'react';
-import { Box, IconButton, Select, MenuItem, useTheme, useMediaQuery } from '@mui/material';
+import { Box, IconButton, Select, MenuItem, useTheme, useMediaQuery, CircularProgress } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import VideocamIcon from '@mui/icons-material/Videocam';
 import Link from 'next/link';
@@ -176,7 +176,9 @@ const PatientAppointmentsPage = () => {
           </Box>
         </Box>
       ) : (
-        <h1>Loading.....</h1>
+           <Box display="flex" justifyContent="center" p={10}>
+      <CircularProgress />
+    </Box>
       )}
     </Box>
   );

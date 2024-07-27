@@ -15,7 +15,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 const TopRatedDoctors = async () => {
-  const res = await fetch("https://care-connect-backend.vercel.app/api/v1/doctor?page=1&limit=3");
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/doctor?page=1&limit=3`);
   const { data: topRatedDoctors } = await res.json();
 
   return (

@@ -93,9 +93,7 @@ const PatientAppointmentsPage = () => {
     console.log(`Appointment ID: ${appointmentId}, Rating: ${rating}`);
   };
 
-  if (isLoading) {
-    return "...Loading";
-  }
+  
 
   const columns: GridColDef[] = [
     {
@@ -206,7 +204,7 @@ const PatientAppointmentsPage = () => {
 
   return (
     <Box>
-      <Box my={2} sx={{ width: "100%", overflowX: "auto" }}>
+    {!isLoading ?   <Box my={2} sx={{ width: "100%", overflowX: "auto" }}>
         <DataGrid
           rows={appointments ?? []}
           columns={columns}
@@ -234,7 +232,11 @@ const PatientAppointmentsPage = () => {
                 <CCPagination pageCount={pageCount} page={page} handleChange={handleChangePage} />
               </Box>
             </Box>
-      </Box>
+      </Box> : (
+        <Box display="flex" justifyContent="center" p={10}>
+          <CircularProgress />
+        </Box>
+      )}
     </Box>
   );
 };

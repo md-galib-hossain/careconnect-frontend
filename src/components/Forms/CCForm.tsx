@@ -22,6 +22,7 @@ const CCForm = ({ children, onSubmit, resolver,defaultValues }: TFormProps) => {
   if(defaultValues){
     formConfig["defaultValues"] = defaultValues
   }
+  
   const methods = useForm(formConfig);
   const { handleSubmit, reset } = methods;
   const submit: SubmitHandler<FieldValues> = (data) => {

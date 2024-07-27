@@ -7,7 +7,7 @@ import {
   useUpdateDoctorMutation,
 } from "@/redux/api/doctorsApi";
 import { Gender } from "@/types";
-import { Box, Button, Grid } from "@mui/material";
+import { Box, Button, CircularProgress, Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { FieldValues } from "react-hook-form";
 import MultipleSelectChip from "./MultipleSelectChip";
@@ -36,7 +36,11 @@ const ProfileUpdateModal = ({ open, setOpen, id }: TProps) => {
   const [selectedSpecialtiesIds, setSelectedSpecialtiesIds] = useState([]);
   // const allSpecialties = data.data
   if (isLoading) {
-    <p>loading...</p>;
+    
+      <Box display="flex" justifyContent="center" p={10}>
+        <CircularProgress />
+      </Box>
+    
   }
   const allSpecialties = data?.data
   console.log(allSpecialties)

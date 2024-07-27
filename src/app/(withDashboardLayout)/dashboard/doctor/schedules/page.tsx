@@ -1,5 +1,5 @@
 "use client";
-import { Box, Button, IconButton, Select, MenuItem } from "@mui/material";
+import { Box, Button, IconButton, Select, MenuItem, CircularProgress } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import DoctorScheduleModal from "./components/DoctorScheduleModal";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -106,7 +106,9 @@ const DoctorSchedulesPage = () => {
 
             </Box>
           ) : (
-            <h1>Loading.....</h1>
+            <Box display="flex" justifyContent="center" p={10}>
+              <CircularProgress />
+            </Box>
           )}
         </Box>
       </Box>

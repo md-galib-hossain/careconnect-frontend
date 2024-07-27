@@ -7,7 +7,7 @@ import dayjs, { Dayjs } from "dayjs";
 import { useState } from "react";
 import { useGetAllSchedulesQuery } from "@/redux/api/scheduleApi";
 import MultipleSelectFieldWithChip from "./MultipleSelectFieldWithChip";
-import { Button, Stack } from "@mui/material";
+import { Box, Button, CircularProgress, Stack } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { useCreateDoctorScheduleMutation } from "@/redux/api/doctoScheduleApi";
 import { useRouter } from "next/navigation";
@@ -44,9 +44,15 @@ const DoctorScheduleModal = ({ open, setOpen }: TProps) => {
   const [createDoctorSchedule, { isLoading: creatingLoading }] =
     useCreateDoctorScheduleMutation();
   const schedules = data?.schedules;
-  if (isLoading) {
-    return <h1>loading</h1>;
-  }
+  // if (isLoading) {
+  //   return (
+  //     <Box display="flex" justifyContent="center" p={10}>
+  //     <CircularProgress />
+  //   </Box>
+  //   )
+     
+    
+  // }
   const onSubmit = async () => {
     try {
       const res = await createDoctorSchedule({

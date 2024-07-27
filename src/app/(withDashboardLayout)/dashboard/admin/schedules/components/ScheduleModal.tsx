@@ -24,6 +24,7 @@ const ScheduleModal = ({ open, setOpen }: TOpenProps) => {
     try {
       console.log(values)
       const res = await createSchedule(values).unwrap();
+      console.log(res)
       if (res?.length) {
         toast.success("Schedules created successfully!");
         setOpen(false);

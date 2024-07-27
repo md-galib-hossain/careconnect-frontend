@@ -22,30 +22,30 @@ import CCInput from "@/components/Forms/CCInput";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginValidationSchema } from "./loginValidation";
-
-
-
+import DemoAccountModal from "./components/DemoAccountModal";
 
 const LoginPage = () => {
+  const [open,setOpen] = useState(false)
   const router = useRouter();
-const [error,setError] = useState("")
+  const [error, setError] = useState("");
   const handleLogin = async (values: FieldValues) => {
     try {
       const res = await userLogin(values);
       if (res?.data?.accessToken) {
         toast.success(res?.message);
-     storeUserInfo(res?.data?.accessToken);
-        const user = getUserInfo()
-      
+        storeUserInfo(res?.data?.accessToken);
+        const user = getUserInfo();
+
         // router.push(`/dashboard/${user?.role}`);
       } else {
-        setError(res?.message)
+        setError(res?.message);
         // toast.error(res?.message);
       }
     } catch (err: any) {
       console.log(err.message);
     }
   };
+  console.log(loginValidationSchema);
   return (
     <Container>
       <Stack
@@ -82,34 +82,41 @@ const [error,setError] = useState("")
             </Box>
           </Stack>
           {/* error message start */}
-          {
-            error && <Box>
-            <Typography sx={{
-              backgroundColor : "red",
-              padding : "1px",
-              borderRadius : "2px",
-              color : "white",
-              marginTop : "5px"
-            }}>
-            {error}
-            </Typography>
+          {error && (
+            <Box>
+              <Typography
+                sx={{
+                  backgroundColor: "red",
+                  padding: "1px",
+                  borderRadius: "2px",
+                  color: "white",
+                  marginTop: "5px",
+                }}
+              >
+                {error}
+              </Typography>
             </Box>
-          }
+          )}
 
           {/* error message end */}
-
+          <DemoAccountModal open={open} setOpen={setOpen}/>
+          <Button size="small" variant="text" onClick={()=> setOpen(!open)}>
+            Demo Accounts
+          </Button>
           {/* */}
           <Box>
-            <CCForm onSubmit={handleLogin} resolver={zodResolver(loginValidationSchema)}
-            defaultValues={{
-              email : "",
-              password : ""
-            }}
+            <CCForm
+              onSubmit={handleLogin}
+              resolver={zodResolver(loginValidationSchema)}
+              defaultValues={{
+                email: "",
+                password: "",
+              }}
             >
               {/* parent grid */}
               <Grid container spacing={2} my={1}>
                 <Grid item md={6}>
-                  <CCInput 
+                  <CCInput
                     name="email"
                     label="Email"
                     type="email"
@@ -117,8 +124,8 @@ const [error,setError] = useState("")
                   />
                 </Grid>
                 <Grid item md={6}>
-                  <CCInput 
-                  name="password"
+                  <CCInput
+                    name="password"
                     label="Password"
                     type="password"
                     fullWidth={true}
@@ -126,11 +133,18 @@ const [error,setError] = useState("")
                 </Grid>
               </Grid>
               <Link href="/forgot-password">
-              <Typography mb={1} textAlign="end" component="p" fontWeight={300} sx={{
-                textDecoration : 'underline'
-              }}>
-                Forgot password?
-              </Typography></Link>
+                <Typography
+                  mb={1}
+                  textAlign="end"
+                  component="p"
+                  fontWeight={300}
+                  sx={{
+                    textDecoration: "underline",
+                  }}
+                >
+                  Forgot password?
+                </Typography>
+              </Link>
               <Button
                 sx={{
                   margin: "8px 0px",

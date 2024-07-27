@@ -8,6 +8,8 @@ const doctorScheduleApi = baseApi.injectEndpoints({
         query : (data) => ({
             url: '/doctor-schedule',
             method : 'POST',
+            cache : "no-store",
+
             data
         }),
         invalidatesTags : [tagTypes.doctorSchedule]
@@ -17,6 +19,8 @@ const doctorScheduleApi = baseApi.injectEndpoints({
            return {
               url: '/doctor-schedule',
               method: 'GET',
+              cache : "no-store",
+
               params: arg,
            };
         },
@@ -32,6 +36,8 @@ const doctorScheduleApi = baseApi.injectEndpoints({
         query: (id: string | string[] | undefined) => ({
            url: `/doctor-schedule/${id}`,
            method: 'GET',
+           cache : "no-store"
+
         }),
         providesTags: [tagTypes.doctorSchedule],
      }),
@@ -39,6 +45,8 @@ const doctorScheduleApi = baseApi.injectEndpoints({
         query: () => ({
            url: '/doctor-schedule/my-schedules',
            method: 'GET',
+           cache : "no-store"
+
         }),
         providesTags: [tagTypes.doctorSchedule],
      }),
@@ -47,6 +55,8 @@ const doctorScheduleApi = baseApi.injectEndpoints({
         query: (id: string) => ({
            url: `/doctor-schedule/${id}`,
            method: 'DELETE',
+           cache : "no-store"
+
         }),
         invalidatesTags: [tagTypes.doctorSchedule],
      }),
