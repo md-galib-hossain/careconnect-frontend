@@ -115,7 +115,7 @@ const LoginPage = () => {
             >
               {/* parent grid */}
               <Grid container spacing={2} my={1}>
-                <Grid item md={6}>
+                <Grid item xs={12} sm={6}>
                   <CCInput
                     name="email"
                     label="Email"
@@ -123,7 +123,7 @@ const LoginPage = () => {
                     fullWidth={true}
                   />
                 </Grid>
-                <Grid item md={6}>
+                <Grid item xs={12} sm={6}>
                   <CCInput
                     name="password"
                     label="Password"

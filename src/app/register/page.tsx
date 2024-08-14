@@ -125,10 +125,10 @@ setError(`User with same ${response?.error?.target[0]} already exists`)
             >
               {/* parent grid */}
               <Grid container spacing={2} my={1}>
-                <Grid item md={12}>
+                <Grid item xs={12} sm={12}>
                   <CCInput name="patient.name" label="Name" fullWidth={true} />
                 </Grid>
-                <Grid item md={6}>
+                <Grid item xs={12} sm={6}>
                   <CCInput
                     label="Email"
                     type="email"
@@ -136,7 +136,7 @@ setError(`User with same ${response?.error?.target[0]} already exists`)
                     name="patient.email"
                   />
                 </Grid>
-                <Grid item md={6}>
+                <Grid item xs={12} sm={6}>
                   <CCInput
                     label="Password"
                     type="password"
@@ -144,7 +144,7 @@ setError(`User with same ${response?.error?.target[0]} already exists`)
                     name="password"
                   />
                 </Grid>
-                <Grid item md={6}>
+                <Grid item xs={12} sm={6}>
                   <CCInput
                     label="Contact No."
                     type="tel"
@@ -152,7 +152,7 @@ setError(`User with same ${response?.error?.target[0]} already exists`)
                     name="patient.contactNumber"
                   />
                 </Grid>
-                <Grid item md={6}>
+                <Grid item xs={12} sm={6}>
                   <CCInput
                     label="Address"
                     type="text"
