@@ -1,7 +1,16 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from "react";
-import { AppBar, Box, Container, IconButton, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
-import MenuIcon from '@mui/icons-material/Menu';
+import {
+  AppBar,
+  Box,
+  Container,
+  IconButton,
+  Menu,
+  MenuItem,
+  Toolbar,
+  Typography,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 
@@ -10,14 +19,17 @@ import logoutUser from "@/app/services/actions/logoutUser";
 import { getUserInfo } from "@/app/services/auth.services";
 
 const Navbar = () => {
-  const AuthButton = dynamic(() => import('@/components/UI/AuthButton/AuthButton'), { ssr: false });
+  const AuthButton = dynamic(
+    () => import("@/components/UI/AuthButton/AuthButton"),
+    { ssr: false }
+  );
   const [user, setUser] = useState<{ role?: string } | null>(null);
 
   useEffect(() => {
     const userFromStorage = getUserInfo();
     setUser(userFromStorage);
   }, []);
-  
+
   const router = useRouter();
 
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -30,10 +42,25 @@ const Navbar = () => {
     setAnchorElNav(null);
   };
 
- 
+  const buttonProps = {
+    sx: {
+      color: "primary.main",
+      bgcolor: "#FFFFFF",
+      ":hover": {
+        bgcolor: "#F2F2F2",
+      },
+    },
+  };
+
+  const menuItemProps = {
+    sx: {
+      color: "inherit",
+      textDecoration: "none",
+    },
+  };
 
   return (
-    <AppBar position="static" color="transparent" elevation={0}>
+    <AppBar position="static" elevation={0}>
       <Container>
         <Toolbar disableGutters>
           <Typography
@@ -42,21 +69,18 @@ const Navbar = () => {
             component={Link}
             href="/"
             sx={{
-              display: { xs: 'flex', md: 'flex' },
-              color: 'inherit',
-              textDecoration: 'none',
+              display: { xs: "flex", md: "flex" },
+              color: "inherit",
+              textDecoration: "none",
               flexGrow: 0,
-              marginRight: 'auto', // Aligns to the left
+              marginRight: "auto", // Aligns to the left
             }}
           >
-            Care{" "}
-            <Box component="span" color="primary.main">
-              Connect
-            </Box>
+            Care Connect
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>
-            <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "flex-end" }}>
+            <Box sx={{ display: { xs: "flex", md: "none" } }}>
               <IconButton
                 size="large"
                 aria-label="menu"
@@ -71,51 +95,65 @@ const Navbar = () => {
                 id="menu-appbar"
                 anchorEl={anchorElNav}
                 anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
+                  vertical: "bottom",
+                  horizontal: "left",
                 }}
                 keepMounted
                 transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left',
+                  vertical: "top",
+                  horizontal: "left",
                 }}
                 open={Boolean(anchorElNav)}
                 onClose={handleCloseNavMenu}
                 sx={{
-                  display: { xs: 'block', md: 'none' },
+                  display: { xs: "block", md: "none" },
                 }}
               >
-                <MenuItem component={Link} href="/healthplans" onClick={handleCloseNavMenu}>
+                <MenuItem
+                  component={Link}
+                  href="/healthplans"
+                  onClick={handleCloseNavMenu}
+                >
                   Health Plans
                 </MenuItem>
-                <MenuItem component={Link} href="/medicine" onClick={handleCloseNavMenu}>
+                <MenuItem
+                  component={Link}
+                  href="/medicine"
+                  onClick={handleCloseNavMenu}
+                >
                   Medicine
                 </MenuItem>
                 {user && (
-                  <MenuItem component={Link} href={`/dashboard/${user?.role}`} onClick={handleCloseNavMenu}>
+                  <MenuItem
+                    component={Link}
+                    href={`/dashboard/${user?.role}`}
+                    onClick={handleCloseNavMenu}
+                  >
                     Dashboard
                   </MenuItem>
                 )}
-                <MenuItem onClick={handleCloseNavMenu}>
-                  <AuthButton />
-                </MenuItem>
+                <AuthButton
+                  menuItemProps={menuItemProps}
+                  isMenuItem
+                  onClick={handleCloseNavMenu}
+                />
               </Menu>
             </Box>
 
-            <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center' }}>
+            <Box
+              sx={{ display: { xs: "none", md: "flex" }, alignItems: "center",  }}
+            >
               {user && (
                 <Typography
                   component={Link}
                   href={`/dashboard/${user?.role}`}
                   sx={{
-                    color: 'inherit',
-                    textDecoration: 'none',
+                    color: "inherit",
+                    textDecoration: "none",
                     mx: 2,
-                    '&:hover': {
-                      color: 'primary.main',
-                      transform: 'scale(1.1)',
+                    "&:hover": {
+                      borderBottom: "1px solid white",
                     },
-                    transition: 'color 0.3s, transform 0.3s',
                   }}
                 >
                   Dashboard
@@ -125,14 +163,12 @@ const Navbar = () => {
                 component={Link}
                 href="/healthplans"
                 sx={{
-                  color: 'inherit',
-                  textDecoration: 'none',
+                  color: "inherit",
+                  textDecoration: "none",
                   mx: 2,
-                  '&:hover': {
-                    color: 'primary.main',
-                    transform: 'scale(1.1)',
+                  "&:hover": {
+                    borderBottom: "1px solid white",
                   },
-                  transition: 'color 0.3s, transform 0.3s',
                 }}
               >
                 Health Plans
@@ -141,22 +177,18 @@ const Navbar = () => {
                 component={Link}
                 href="/medicine"
                 sx={{
-                  color: 'inherit',
-                  textDecoration: 'none',
+                  color: "inherit",
+                  textDecoration: "none",
                   mx: 2,
-                  '&:hover': {
-                    color: 'primary.main',
-                    transform: 'scale(1.1)',
+                  mr:4,
+                  "&:hover": {
+                    borderBottom: "1px solid white",
                   },
-                  transition: 'color 0.3s, transform 0.3s',
                 }}
               >
                 Medicine
               </Typography>
-            </Box>
-
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-              <AuthButton />
+              <AuthButton buttonProps={buttonProps} />
             </Box>
           </Box>
         </Toolbar>

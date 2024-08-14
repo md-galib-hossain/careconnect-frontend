@@ -2,29 +2,39 @@ import deleteCookies from "@/app/services/actions/deleteCookies";
 import logoutUser from "@/app/services/actions/logoutUser";
 import { getUserInfo, removeUser } from "@/app/services/auth.services";
 import { authKey } from "@/constants/authKey";
-import { Button } from "@mui/material";
+import { Button, MenuItem } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-export const AuthButton = async () => {
+export const AuthButton = ({ buttonProps, menuItemProps, isMenuItem }:any) => {
   const userInfo = getUserInfo();
-  console.log(userInfo);
   const router = useRouter();
   const handleLogout = () => {
     logoutUser(router);
   };
+
+  if (isMenuItem) {
+    return (
+      <MenuItem
+        onClick={handleLogout}
+        component={Link}
+        href={userInfo?.id ? "/" : "/login"}
+        {...menuItemProps}
+      >
+        {userInfo?.id ? "Logout" : "Login"}
+      </MenuItem>
+    );
+  }
+
   return (
-    <>
-      {userInfo?.id ? (
-        <Button onClick={handleLogout} color="error">
-          Logout
-        </Button>
-      ) : (
-        <Button component={Link} href="/login">
-          Login
-        </Button>
-      )}
-    </>
+    <Button
+      onClick={userInfo?.id ? handleLogout : null}
+      component={Link}
+      href={userInfo?.id ? "/" : "/login"}
+      {...buttonProps}
+    >
+      {userInfo?.id ? "Logout" : "Login"}
+    </Button>
   );
 };
 
