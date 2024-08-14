@@ -1,7 +1,7 @@
 "use client";
 import { Box, Container, Grid, Typography } from "@mui/material";
 import Image from "next/image";
-import femaleDocImg from "@/assets/how-it-works-img.png";
+import femaleDocImg from "@/assets/doctors/transparent/6.png";
 import searchIcon from "@/assets/icons/search-icon.png";
 import doctorIcon from "@/assets/icons/doctor-icon.png";
 import appointmentIcon from "@/assets/icons/appointment-icon.png";
@@ -11,39 +11,34 @@ const steps = [
   {
     icon: searchIcon,
     title: "Search Doctor",
-    description: "Dolor sit amet consectetur. Scelerisque in eu mauris volutpat Ornare.",
+    description: "Find the right doctor for your needs, quickly and easily.",
   },
   {
     icon: doctorIcon,
     title: "Check Doctor Profile",
-    description: "Dolor sit amet consectetur. Scelerisque in eu mauris volutpat Ornare.",
+    description: "Review qualifications and expertise before your visit.",
   },
   {
     icon: appointmentIcon,
     title: "Schedule Appointment",
-    description: "Dolor sit amet consectetur. Scelerisque in eu mauris volutpat Ornare.",
+    description: "Conveniently book your next medical appointment online.",
   },
   {
     icon: charityIcon,
     title: "Get Your Solution",
-    description: "Dolor sit amet consectetur. Scelerisque in eu mauris volutpat Ornare.",
+    description: "Access personalized medical advice tailored for you.",
   },
 ];
 
 const HowItWorks = () => {
   return (
     <Container>
-      <Box my={{ xs: 5, md: 10 }}>
-        <Box textAlign={{ xs: 'center', md: 'left' }}>
-          <Typography
-            component="p"
-            fontSize={{ xs: 18, md: 20 }}
-            fontWeight={400}
-            color="#1586FD"
-            sx={{ mb: 1.3 }}
-          >
-            How it Works
-          </Typography>
+      <Box
+        sx={{
+          my: 10,
+        }}
+      >
+        <Box textAlign={"center"}>
           <Typography
             variant="h4"
             component="h1"
@@ -60,19 +55,30 @@ const HowItWorks = () => {
           >
             Access to expert physicians and surgeons, advanced technologies
           </Typography>
-          <Typography component="p" fontSize={{ xs: 16, md: 18 }} fontWeight={400}>
+          <Typography
+            component="p"
+            fontSize={{ xs: 16, md: 18 }}
+            fontWeight={400}
+          >
             and top-quality surgery facilities right here.
           </Typography>
         </Box>
         <Box>
           <Grid container spacing={2} mt={{ xs: 3, md: 5 }}>
             {/* left side image */}
-            <Grid item xs={12} md={6} display="flex" justifyContent={{ xs: 'center', md: 'flex-start' }}>
+            <Grid
+              item
+              xs={12}
+              md={6}
+              display="flex"
+              justifyContent={{ xs: "center", md: "flex-start" }}
+            >
               <Image src={femaleDocImg} alt="doctor image" />
             </Grid>
             {/* right side 4 panels */}
-            <Grid item xs={12} md={6}>
-              <Grid container spacing={2}>
+            <Grid item xs={12} md={6}  display="flex"
+              alignItems="center">
+              <Grid container spacing={2} >
                 {steps.map((step, index) => (
                   <Grid item xs={12} sm={6} key={index}>
                     <Box
@@ -82,10 +88,13 @@ const HowItWorks = () => {
                         border: "1px solid lightgray",
                         borderRadius: "10px",
                         padding: "20px",
-                        textAlign: 'center',
+                        textAlign: "center",
                       }}
                     >
-                      <Image src={step.icon} alt={`${step.title.toLowerCase()}-icon`} />
+                      <Image
+                        src={step.icon}
+                        alt={`${step.title.toLowerCase()}-icon`}
+                      />
                       <Typography
                         variant="h6"
                         component="h2"

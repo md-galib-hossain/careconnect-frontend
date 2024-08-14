@@ -4,27 +4,60 @@ import {
   Card,
   CardActions,
   CardContent,
-  CardMedia,
   Container,
   Grid,
+  Rating,
+  styled,
   Typography,
 } from "@mui/material";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import { TDoctor } from "./TopRatedDoctortypes";
+import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
+import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
+import SentimentSatisfiedIcon from "@mui/icons-material/SentimentSatisfied";
+import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAltOutlined";
+import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfied";
 import Image from "next/image";
 import Link from "next/link";
+import { TDoctor } from "./TopRatedDoctortypes";
+
+// Custom Icons for Rating
+const customIcons: {
+  [index: number]: { icon: React.ReactElement; label: string };
+} = {
+  1: {
+    icon: <SentimentVeryDissatisfiedIcon color="error" />,
+    label: "Very Dissatisfied",
+  },
+  2: {
+    icon: <SentimentDissatisfiedIcon color="error" />,
+    label: "Dissatisfied",
+  },
+  3: {
+    icon: <SentimentSatisfiedIcon color="warning" />,
+    label: "Neutral",
+  },
+  4: {
+    icon: <SentimentSatisfiedAltIcon color="success" />,
+    label: "Satisfied",
+  },
+  5: {
+    icon: <SentimentVerySatisfiedIcon color="success" />,
+    label: "Very Satisfied",
+  },
+};
+
+function SingleRatingIcon({ value }: { value: number }) {
+  return customIcons[value] ? customIcons[value].icon : null;
+}
 
 const TopRatedDoctors = async () => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/doctor?page=1&limit=3`);
+  // Fetching top-rated doctors
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/doctor?page=1&limit=3`
+  );
   const { data: topRatedDoctors } = await res.json();
-
+  console.log(topRatedDoctors);
   return (
-    <Box
-      sx={{
-        my: 10,
-        py: 10,
-      }}
-    >
+    <Box sx={{ my: 10 }}>
       <Box sx={{ textAlign: "center" }}>
         <Typography variant="h4" component="h1" fontWeight={700}>
           Our Top Rated Doctors
@@ -36,16 +69,10 @@ const TopRatedDoctors = async () => {
           and top-quality surgery facilities right here.
         </Typography>
       </Box>
-      <Container
-        sx={{
-          margin: "30px auto",
-        }}
-      >
-        {/* parent grid for doctors card */}
-        <Grid container spacing={2} my={5} justifyContent={"center"}>
+      <Container sx={{ margin: "30px auto" }}>
+        <Grid container spacing={2} my={5} justifyContent="center">
           {topRatedDoctors.map((doctor: TDoctor) => (
-            // grid items
-            <Grid item key={doctor?.id} md={4} >
+            <Grid item key={doctor.id} md={4}>
               <Card sx={{ width: 345 }}>
                 <Box
                   sx={{
@@ -54,7 +81,6 @@ const TopRatedDoctors = async () => {
                     "& img": {
                       width: "100%",
                       height: "100%",
-                      overflow: "hidden",
                       objectFit: "cover",
                     },
                   }}
@@ -63,44 +89,78 @@ const TopRatedDoctors = async () => {
                     width={500}
                     height={500}
                     src={
-                      doctor?.profilePhoto ||
+                      doctor.profilePhoto ||
                       "https://codringtoncollege.edu.bb/wp-content/uploads/2021/04/avatar.png"
                     }
-                    alt={`${doctor?.name}'s photo`}
+                    alt={`${doctor.name}'s photo`}
                   />
                 </Box>
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    {doctor?.name}
+                <CardContent sx={{ py: 1 }}>
+                  <Box display="flex" justifyContent={"space-between"}>
+                    <Typography gutterBottom variant="h5" component="div">
+                      {doctor.name}
+                    </Typography>
+                  </Box>
+                  <Typography variant="body2" color="text.secondary">
+                    {doctor.qualification}, {doctor.designation}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    {doctor?.qualification}, {doctor?.designation}
+                    {`For ${doctor?.experience}  ${
+                      doctor?.experience > 1 ? "years" : "year"
+                    }`}
                   </Typography>
-                  <Typography variant="body2" color="text.secondary" mt={1}>
-                    <LocationOnIcon /> {doctor?.address}
-                  </Typography>
+                  <Box display="flex">
+                    <Rating
+                      name="simple-controlled"
+                      value={doctor?.averageRating}
+                      readOnly
+                      sx={{
+                        color: "primary.main",
+                      }}
+                      size="small"
+                    />
+                  </Box>
                 </CardContent>
                 <CardActions
                   sx={{
                     justifyContent: "space-between",
                     px: 2,
-                    paddingBottom: "20px",
+                    py: 0,
+                    paddingBottom: "10px",
                   }}
                 >
-                  {/* <Button>Book Now</Button> */}
-                  <Button component={Link} href={`doctors/${doctor?.id}`} variant="outlined">
-                    View Profile
-                  </Button>
+                  <Box
+                    display={"flex"}
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                  >
+                    <Typography variant="h5" fontWeight={700}>
+                      ${doctor?.appointmentFee}
+                      <Typography
+                        component={"span"}
+                        fontSize={"small"}
+                        color="text.secondary"
+                      >
+                        (Including VAT)
+                      </Typography>{" "}
+                    </Typography>
+                  </Box>
+
+                  <Box>
+                    <Button
+                      component={Link}
+                      href={`doctors/${doctor.id}`}
+                      variant="text"
+                    >
+                      View Profile
+                    </Button>
+                  </Box>
                 </CardActions>
               </Card>
             </Grid>
           ))}
         </Grid>
-        <Box
-          sx={{
-            textAlign: "center",
-          }}
-        >
+        <Box sx={{ textAlign: "center" }}>
           <Button variant="outlined" component={Link} href="/doctors">
             View All
           </Button>

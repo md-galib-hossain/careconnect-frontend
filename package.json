@@ -27,6 +27,7 @@
     "jwt-decode": "^4.0.0",
     "next": "14.0.3",
     "react": "^18",
+    "react-animated-counter": "^1.7.9",
     "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^18",
     "react-hook-form": "^7.51.3",

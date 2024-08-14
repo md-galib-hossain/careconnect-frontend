@@ -1,179 +1,108 @@
 import { Box, Container, Grid, Typography } from "@mui/material";
 import assets from "@/assets";
-import chooseUsImg from "@/assets/choose-us.png";
+import chooseUsImg from "@/assets/images/whyus-removebg-preview.png";
 import Image from "next/image";
+
 const servicesData = [
   {
     imageSrc: assets.svgs.award,
     title: "Award Winning Service",
     description:
-      "Duas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui offici",
+      "Recognized for top-tier care, we provide innovative, compassionate, award-winning service every day.",
   },
   {
     imageSrc: assets.svgs.award,
     title: "Best Quality Pregnancy Care",
     description:
-      "Duas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui offici",
+      "Experience personalized prenatal support with advanced care and a holistic approach to motherhood.",
   },
   {
     imageSrc: assets.svgs.award,
     title: "Complete Medical Equipments",
     description:
-      "Duas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui offici",
+      "Our facility boasts state-of-the-art equipment, enabling us to deliver comprehensive and precise care.",
   },
   {
     imageSrc: assets.svgs.award,
     title: "Dedicated Emergency Care",
     description:
-      "Duas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui offici",
+      "Our emergency team provides swift and skilled medical attention, ensuring your peace of mind.",
   },
 ];
 
 const WhyUs = () => {
   return (
-<Container>
+    <Container>
       <Box>
         <Box sx={{ textAlign: "center" }}>
-          <Typography
-            color="primary"
-            variant="h6"
-            component="h1"
-            fontWeight={700}
-          >
-            Why Us
-          </Typography>
           <Typography variant="h4" component="h1" fontWeight={700}>
             Why Choose Us
           </Typography>
         </Box>
-        <Grid container spacing={2} my={5} alignItems="center" justifyContent={"center"}>
-          <Grid item md={6}>
-            <Box
-              sx={{
-                display: "flex",
-                gap: "15px",
-                backgroundColor: "rgba(245, 245, 245,1)",
-                padding: "15px",
-                alignItems: "center",
-                borderRadius: "10px 10px 100px 10px",
-              }}
-            >
+        <Grid container my={5} alignItems="center" justifyContent="center">
+          <Grid item md={6} >
+            {servicesData.map((service, index) => (
               <Box
+                key={index}
                 sx={{
-                  backgroundColor: "#fff",
+                  display: "flex",
+                  gap: "15px",
+                  backgroundColor: "rgba(245, 245, 245, 1)",
                   padding: "15px",
-                  borderRadius: "10px",
+                  alignItems: "center",
+                  borderRadius:{
+                    xs: "14px",
+                    sm: "14px",
+                    md: index % 2 === 0 ? "10px 10px 100px 10px" : "10px 100px 10px 10px",
+                  },
+                  marginBottom: index === servicesData.length - 1 ? "0px" : "20px",
+                  maxWidth: "100%",
+                  overflow: "hidden",
                 }}
               >
-                <Image src={servicesData[0].imageSrc} width={50} alt="award" />
-              </Box>
-              <Box>
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  component="h1"
-                  fontWeight={600}
+                <Box
+                  sx={{
+                    backgroundColor: "#fff",
+                    padding: "10px",
+                    borderRadius: "10px",
+                    flexShrink: 0,
+                  }}
                 >
-                  {servicesData[0].title}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {servicesData[0].description}
-                </Typography>
+                  <Image src={service.imageSrc} width={50} alt="award" />
+                </Box>
+                <Box sx={{ flex: 1, textAlign: "left" }}>
+                  <Typography
+                    variant="h6"
+                    component="h6"
+                    fontWeight={600}
+                    sx={{ whiteSpace: "normal", overflow: "hidden", textOverflow: "ellipsis" }}
+                  >
+                    {service.title}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ whiteSpace: "normal", overflow: "hidden", textOverflow: "ellipsis" }}
+                  >
+                    {service.description}
+                  </Typography>
+                </Box>
               </Box>
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                gap: "15px",
-                backgroundColor: "rgba(245, 245, 245,1)",
-                padding: "15px",
-                alignItems: "center",
-                borderRadius: "10px 100px 10px 10px",
-                margin: "20px 0px",
-              }}
-            >
-              <Box
-                sx={{
-                  backgroundColor: "#fff",
-                  padding: "10px",
-                  borderRadius: "10px",
-                }}
-              >
-                <Image src={servicesData[1].imageSrc} width={50} alt="award" />
-              </Box>
-              <Box>
-                <Typography variant="h6" component="h6" fontWeight={600}>
-                  {servicesData[1].title}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {servicesData[1].description}
-                </Typography>
-              </Box>
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                gap: "15px",
-                backgroundColor: "rgba(245, 245, 245,1)",
-                padding: "15px",
-                alignItems: "center",
-                borderRadius: "10px 10px 100px 10px",
-              }}
-            >
-              <Box
-                sx={{
-                  backgroundColor: "#fff",
-                  padding: "10px",
-                  borderRadius: "10px",
-                }}
-              >
-                <Image src={servicesData[2].imageSrc} width={50} alt="award" />
-              </Box>
-              <Box>
-                <Typography variant="h6" component="h6" fontWeight={600}>
-                  {servicesData[2].title}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {servicesData[2].description}
-                </Typography>
-              </Box>
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                gap: "15px",
-                backgroundColor: "rgba(245, 245, 245,1)",
-                padding: "15px",
-                alignItems: "center",
-                borderRadius: "10px 100px 10px 10px",
-                marginTop: "20px",
-              }}
-            >
-              <Box
-                sx={{
-                  backgroundColor: "#fff",
-                  padding: "10px",
-                  borderRadius: "10px",
-                }}
-              >
-                <Image src={servicesData[3].imageSrc} width={50} alt="award" />
-              </Box>
-              <Box>
-                <Typography variant="h6" component="h6" fontWeight={600}>
-                  {servicesData[3].title}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {servicesData[3].description}
-                </Typography>
-              </Box>
-            </Box>
+            ))}
           </Grid>
-          <Grid item md={5}>
-            <Box
+          <Grid item md={6}>
+          <Box
               sx={{
-                display: "flex",
-                justifyContent: "center",
+                display: {
+                  xs: "none",
+                  md: "flex",
+                },
+                justifyContent: {
+                  md: "end",
+                },
                 alignItems: "center",
+                height: "100%", 
+                textAlign: "center", 
               }}
             >
               <Image src={chooseUsImg} width={400} alt="choose us" />

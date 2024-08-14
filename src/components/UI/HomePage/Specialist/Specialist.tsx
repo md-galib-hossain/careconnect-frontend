@@ -22,13 +22,13 @@ const Specialist = async () => {
       >
         <Box
           sx={{
-            textAlign: "start",
+            textAlign: "center",
           }}
         >
           <Typography variant="h4" fontWeight={600}>
             Explore Treatments Across
           </Typography>
-          <Typography component="p" fontWeight={300} fontSize={18}>
+          <Typography component="p" fontWeight={300} fontSize={18} sx={{ mt: 2 }}>
             Experienced Doctors Across All Specialties
           </Typography>
         </Box>
