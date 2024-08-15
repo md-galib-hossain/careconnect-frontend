@@ -2,10 +2,7 @@ import CCForm from "@/components/Forms/CCForm";
 import CCInput from "@/components/Forms/CCInput";
 import CCSelectField from "@/components/Forms/CCSelectField";
 import CCFullScreenModal from "@/components/Shared/CCModal/CCFullScreenModal";
-import {
-  useGetSingleDoctorQuery,
-  useUpdateDoctorMutation,
-} from "@/redux/api/doctorsApi";
+import { useUpdateDoctorMutation } from "@/redux/api/doctorsApi";
 import { Gender } from "@/types";
 import { Box, Button, CircularProgress, Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -16,51 +13,35 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { doctorProfileValidationSchema } from "./validation";
+
 type TProps = {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  id: string;
+  doctorData: any;
 };
 
-
-
-const ProfileUpdateModal = ({ open, setOpen, id }: TProps) => {
-  const {
-    data: doctorData,
-    refetch,
-    isLoading,
-    isSuccess,
-  } = useGetSingleDoctorQuery(id);
-  const { data } = useGetAllSpecialtiesQuery({limit : 100});
+const ProfileUpdateModal = ({ open, setOpen, doctorData }: TProps) => {
+  const { data: specialtiesData, isLoading: specialtiesLoading } = useGetAllSpecialtiesQuery({ limit: 100 });
   const [updateDoctor, { isLoading: updating }] = useUpdateDoctorMutation();
   const [selectedSpecialtiesIds, setSelectedSpecialtiesIds] = useState([]);
-  // const allSpecialties = data.data
-  if (isLoading) {
-    
-      <Box display="flex" justifyContent="center" p={10}>
-        <CircularProgress />
-      </Box>
-    
-  }
-  const allSpecialties = data?.data
-  console.log(allSpecialties)
-  console.log({doctorData})
 
-  //setting updated specialties id after update
+  const allSpecialties = specialtiesData?.data || [];
+
   useEffect(() => {
-    if (!isSuccess) {
+    if (!specialtiesData) {
       return;
     }
     setSelectedSpecialtiesIds(
-      doctorData?.doctorSpecialties.map((sp: any) => sp.specialtiesId)
+      doctorData?.doctorSpecialties?.map((sp: any) => sp.specialtiesId) || []
     );
-  }, [isSuccess,doctorData?.doctorSpecialties]);
+  }, [specialtiesData, doctorData?.doctorSpecialties]);
 
   const submitHandler = async (values: FieldValues) => {
     const specialties = selectedSpecialtiesIds.map((specialtiesId: string) => ({
       specialtiesId,
       isDeleted: false,
     }));
+
     const excludedFields: Array<keyof typeof values> = [
       "email",
       "id",
@@ -77,26 +58,23 @@ const ProfileUpdateModal = ({ open, setOpen, id }: TProps) => {
       "schedules",
       "doctorSpecialties",
     ];
+
     const updatedValues = Object.fromEntries(
-      Object.entries(values).filter(([key]) => {
-        return !excludedFields.includes(key);
-      })
+      Object.entries(values).filter(([key]) => !excludedFields.includes(key as keyof typeof values))
     );
+
     updatedValues.specialties = specialties;
 
     try {
-   
-      const res = await updateDoctor({ body: updatedValues, id }).unwrap()
-      
+      const res = await updateDoctor({ body: updatedValues, id: doctorData.id }).unwrap();
       if (res.id) {
         toast.success("Doctor profile updated");
-        refetch();
-        setOpen(!open);
+        setOpen(false);
         console.log(res);
       }
     } catch (err) {
       toast.error("Something went wrong");
-      console.log(err);
+      console.error(err);
     }
   };
 
@@ -150,7 +128,7 @@ const ProfileUpdateModal = ({ open, setOpen, id }: TProps) => {
           </Grid>
           <Grid item xs={12} sm={12} md={4}>
             <CCSelectField
-              items={Gender}
+              items={Object.values(Gender)}
               name="gender"
               label="Gender"
               sx={{ mb: 2 }}
@@ -161,7 +139,7 @@ const ProfileUpdateModal = ({ open, setOpen, id }: TProps) => {
             <CCInput
               name="appointmentFee"
               type="number"
-              label="AppointmentFee"
+              label="Appointment Fee"
               sx={{ mb: 2 }}
               fullWidth
             />
@@ -174,7 +152,6 @@ const ProfileUpdateModal = ({ open, setOpen, id }: TProps) => {
               fullWidth
             />
           </Grid>
-
           <Grid item xs={12} sm={12} md={4}>
             <CCInput
               name="currentWorkingPlace"
@@ -200,7 +177,7 @@ const ProfileUpdateModal = ({ open, setOpen, id }: TProps) => {
           </Grid>
         </Grid>
         <Button type="submit" disabled={updating}>
-          Save
+          {updating ? <CircularProgress size={24} /> : "Save"}
         </Button>
       </CCForm>
     </CCFullScreenModal>

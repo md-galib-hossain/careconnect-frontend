@@ -39,15 +39,18 @@ const Profile = () => {
       <CircularProgress />
     </Box>;
   }
+  console.log(data);
   return (
     <>
       {!isLoading ? (
         <Container>
-          <ProfileUpdateModal
-            open={isProfileModalOpen}
-            setOpen={setIsProfileModalOpen}
-            id={data?.id}
-          />
+          {data?.id && (
+            <ProfileUpdateModal
+              open={isProfileModalOpen}
+              setOpen={setIsProfileModalOpen}
+              doctorData={data}
+            />
+          )}
           <Grid container spacing={4} sx={{ mt: 2 }}>
             <Grid xs={12} md={4}>
               <Box
