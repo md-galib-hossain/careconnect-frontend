@@ -10,7 +10,7 @@ const Specialist = async () => {
   });
 
   const { data } = await res.json();
-  const specialties = data.data
+  const specialties = data?.data
 
   return (
     <Container>

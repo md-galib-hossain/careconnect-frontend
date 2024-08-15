@@ -2,7 +2,6 @@
 import { useGetMyAppointmentsQuery } from "@/redux/api/appointmentApi";
 import { Box, IconButton, MenuItem, Select, useMediaQuery, useTheme } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
-
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import VideocamIcon from "@mui/icons-material/Videocam";
 import Link from "next/link";
@@ -72,28 +71,37 @@ const PatientAppointmentsPage = () => {
   const query: Record<string, any> = { page, limit };
 
   const { data, isLoading } = useGetMyAppointmentsQuery({ ...query });
-  const [createReview, { isLoading: creating }] = useCreateReviewMutation();
+  const [createReview] = useCreateReviewMutation();
   const appointments = data?.appointments;
   const meta = data?.meta;
+
+  const [loadingReviewIds, setLoadingReviewIds] = useState<Set<string>>(new Set());
+
   useEffect(() => {
     if (meta?.total) {
       setTotalItems(meta.total);
     }
   }, [data,meta?.total]);
+
   const handleRatingClick = async (
     appointmentId: string,
     rating: number | null
   ) => {
     try {
+      setLoadingReviewIds((prev) => new Set(prev.add(appointmentId)));
       const result = await createReview({ appointmentId, rating });
       console.log(result);
     } catch (err) {
       console.log(err);
+    } finally {
+      setLoadingReviewIds((prev) => {
+        const newSet = new Set(prev);
+        newSet.delete(appointmentId);
+        return newSet;
+      });
     }
     console.log(`Appointment ID: ${appointmentId}, Rating: ${rating}`);
   };
-
-  
 
   const columns: GridColDef[] = [
     {
@@ -172,10 +180,10 @@ const PatientAppointmentsPage = () => {
       headerAlign: "center",
       align: "center",
       renderCell: ({ row }) => {
-        if (creating) {
+        if (loadingReviewIds.has(row.id)) {
           return (
-            <Box sx={{ display: "flex", justifyContent: "center" }}>
-              <CircularProgress />
+            <Box sx={{ display: "flex", justifyContent: "center",alignItems:"center" }}>
+              <CircularProgress size={20} />
             </Box>
           );
         } else {
@@ -201,38 +209,49 @@ const PatientAppointmentsPage = () => {
     },
   ];
 
-
   return (
     <Box>
-    {!isLoading ?   <Box my={2} sx={{ width: "100%", overflowX: "auto" }}>
-        <DataGrid
-          rows={appointments ?? []}
-          columns={columns}
-          loading={isLoading}
-          hideFooter
-          sx={{height : 318}}
-        />
-        {/* pagination */}
-          <Box gap={2} display={"flex"} justifyContent={"center"} alignItems={"center"} flexDirection={isSmallScreen ? "column" : "row"}>
-              <Select
-                disabled={pageCount === 0}
-                value={limit}
-                variant="standard"
-                onChange={(e) => handleChangeLimit(Number(e.target.value))}
-                displayEmpty
-                inputProps={{ "aria-label": "Items per page" }}
-              >
-                {[5, 10, 15, 20].map((value) => (
-                  <MenuItem key={value} value={value}>
-                    {value}
-                  </MenuItem>
-                ))}
-              </Select>
-              <Box mb={1}>
-                <CCPagination pageCount={pageCount} page={page} handleChange={handleChangePage} />
-              </Box>
+      {!isLoading ? (
+        <Box my={2} sx={{ width: "100%", overflowX: "auto" }}>
+          <DataGrid
+            rows={appointments ?? []}
+            columns={columns}
+            loading={isLoading}
+            hideFooter
+            sx={{ height: 318 }}
+          />
+          {/* pagination */}
+          <Box
+            gap={2}
+            display={"flex"}
+            justifyContent={"center"}
+            alignItems={"center"}
+            flexDirection={isSmallScreen ? "column" : "row"}
+          >
+            <Select
+              disabled={pageCount === 0}
+              value={limit}
+              variant="standard"
+              onChange={(e) => handleChangeLimit(Number(e.target.value))}
+              displayEmpty
+              inputProps={{ "aria-label": "Items per page" }}
+            >
+              {[5, 10, 15, 20].map((value) => (
+                <MenuItem key={value} value={value}>
+                  {value}
+                </MenuItem>
+              ))}
+            </Select>
+            <Box mb={1}>
+              <CCPagination
+                pageCount={pageCount}
+                page={page}
+                handleChange={handleChangePage}
+              />
             </Box>
-      </Box> : (
+          </Box>
+        </Box>
+      ) : (
         <Box display="flex" justifyContent="center" p={10}>
           <CircularProgress />
         </Box>

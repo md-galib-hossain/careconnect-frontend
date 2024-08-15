@@ -25,6 +25,7 @@ export default function DashboardDrawer({
   const [isClosing, setIsClosing] = React.useState(false);
 
   const {data,isLoading} = useGetSingleUserQuery({})
+  console.log(data)
   const handleDrawerClose = () => {
     setIsClosing(true);
     setMobileOpen(false);
@@ -86,11 +87,11 @@ export default function DashboardDrawer({
             </Typography>
               </Box>
             <Stack direction="row" gap={3}>
-            <Badge badgeContent={1} color="primary">
+            {/* <Badge badgeContent={1} color="primary">
                 <IconButton sx={{ background: "#ffffff" }}>
                   <NotificationsNoneIcon color="action" />
                 </IconButton>
-              </Badge>
+              </Badge> */}
                 <Stack direction="row">
                 <Avatar alt={data?.name} src={data?.profilePhoto} />
               <AccountMenu/>

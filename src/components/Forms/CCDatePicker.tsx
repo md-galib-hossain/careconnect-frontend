@@ -12,6 +12,7 @@ interface IDatePicker {
   required?: boolean;
   fullWidth?: boolean;
   sx?: SxProps;
+  allowPastDates?: boolean; // New optional prop
 }
 
 const CCDatePicker = ({
@@ -21,6 +22,7 @@ const CCDatePicker = ({
   required,
   fullWidth = true,
   sx,
+  allowPastDates = false, // Default to false
 }: IDatePicker) => {
   const { control } = useFormContext();
 
@@ -33,20 +35,20 @@ const CCDatePicker = ({
         return (
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DesktopDatePicker
-            label={label}
+              label={label}
               timezone="system"
-              disablePast
+              disablePast={!allowPastDates} // Control disabling past dates
               onChange={(date) => onChange(date)}
               {...field}
-              value={value || Date.now()} //current date
+              value={value || dayjs()} // Use dayjs() for current date
               slotProps={{
                 openPickerButton: { color: 'primary' },
-
                 textField: {
                   required: required,
                   size: size,
                   sx: { 
-                    ...sx },
+                    ...sx 
+                  },
                   variant: "outlined",
                   fullWidth: fullWidth,
                 },

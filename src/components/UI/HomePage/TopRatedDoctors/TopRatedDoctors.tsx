@@ -52,7 +52,7 @@ function SingleRatingIcon({ value }: { value: number }) {
 const TopRatedDoctors = async () => {
   // Fetching top-rated doctors
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/doctor?page=1&limit=3`
+    `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/doctor?page=1&limit=3&order=desc`
   );
   const { data: topRatedDoctors } = await res.json();
   console.log(topRatedDoctors);
@@ -74,7 +74,7 @@ const TopRatedDoctors = async () => {
        
        >
         <Grid container spacing={2} my={5} justifyContent="center">
-          {topRatedDoctors.map((doctor: TDoctor) => (
+          {topRatedDoctors?.map((doctor: TDoctor) => (
             <Grid item key={doctor.id} md={4}>
               <Card sx={{ width: 345 }}>
                 <Box

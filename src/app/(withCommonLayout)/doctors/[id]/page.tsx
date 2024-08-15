@@ -26,7 +26,7 @@ const InfoBoxStyles = {
 };
 
 const DoctorsProfilePage = ({ params }: PropTypes) => {
-    const { data: doctor, isLoading, error } = useGetSingleDoctorQuery({ id: params.id });
+    const { data: doctor, isLoading, error } = useGetSingleDoctorQuery(params.id);
     const [specialties, setSpecialties] = useState<string[]>([]);
 
     useEffect(() => {
@@ -55,21 +55,14 @@ const DoctorsProfilePage = ({ params }: PropTypes) => {
             </Container>
         );
     }
-
+console.log(doctor)
     return (
         <Container>
             <Box my={5}>
                 <Typography variant='h4' fontWeight={700} textAlign='center'>
                     Doctor&apos;s Profile Details
                 </Typography>
-                <Typography
-                    textAlign='center'
-                    mt={2}
-                    sx={{ width: '70%', margin: '10px auto' }}
-                    variant='h6'
-                >
-                    Compassionate and dedicated doctor committed to delivering high-quality care. Proficient in diagnosis, treatment, and advocating for comprehensive well-being. Prioritizing patient-centered approaches for optimal health outcomes.
-                </Typography>
+             
             </Box>
 
             <Box>
@@ -125,7 +118,7 @@ const DoctorsProfilePage = ({ params }: PropTypes) => {
                                         </Typography>
                                         <Stack sx={{ ml: 2 }}>
                                             <Typography>
-                                                Taka : {doctor?.appointmentFee} (incl. Vat)
+                                                ${doctor?.appointmentFee} (incl. Vat)
                                             </Typography>
                                             <Typography>Per consultation</Typography>
                                         </Stack>

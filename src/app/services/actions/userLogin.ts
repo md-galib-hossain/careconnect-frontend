@@ -14,15 +14,21 @@ export const userLogin = async (data: FieldValues) => {
       },
       body: JSON.stringify(data),
       // cache: "no-store",
-      credentials : "include"
+      credentials: "include",
     }
   );
   const userInfo = await res.json();
-if(userInfo?.data?.accessToken){
-  const user = decodedToken(userInfo?.data?.accessToken) 
- console.log(user)
-  setAccessToken(userInfo?.data?.accessToken,{redirect : `/dashboard/${user?.role?.toLowerCase()}`})
-}
+  if (userInfo?.data?.accessToken) {
+    const user = decodedToken(userInfo?.data?.accessToken);
+    console.log(user);
+    setAccessToken(userInfo?.data?.accessToken, {
+      redirect: `/dashboard/${
+        user?.role?.toLowerCase() === "patient"
+          ? "patient/appointments"
+          : user?.role?.toLowerCase()
+      }`,
+    });
+  }
 
   return userInfo;
 };

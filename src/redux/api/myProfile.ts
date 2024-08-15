@@ -16,6 +16,7 @@ const profileApi = baseApi.injectEndpoints({
         }),
         updateMyProfile : build.mutation({
             query : (data) => {
+                console.log(data)
                 return {
                     url : '/user/update-my-profile',
                     method : 'PATCH',

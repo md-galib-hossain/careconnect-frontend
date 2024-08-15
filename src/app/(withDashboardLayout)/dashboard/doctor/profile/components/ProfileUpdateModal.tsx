@@ -77,7 +77,7 @@ const ProfileUpdateModal = ({ open, setOpen, doctorData }: TProps) => {
       console.error(err);
     }
   };
-
+console.log(doctorData)
   return (
     <CCFullScreenModal open={open} setOpen={setOpen} title="Update Profile">
       <CCForm

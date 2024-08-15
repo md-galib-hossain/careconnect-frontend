@@ -126,7 +126,7 @@ const Navbar = () => {
                 {user && (
                   <MenuItem
                     component={Link}
-                    href={`/dashboard/${user?.role}`}
+                    href={`/dashboard/${user?.role === "patient" ? "patient/appointments" : user?.role}`}
                     onClick={handleCloseNavMenu}
                   >
                     Dashboard
@@ -146,7 +146,7 @@ const Navbar = () => {
               {user && (
                 <Typography
                   component={Link}
-                  href={`/dashboard/${user?.role}`}
+                  href={`/dashboard/${user?.role === "patient" ? "patient/appointments" : user?.role}`}
                   sx={{
                     color: "inherit",
                     textDecoration: "none",
