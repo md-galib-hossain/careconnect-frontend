@@ -69,7 +69,10 @@ const TopRatedDoctors = async () => {
           and top-quality surgery facilities right here.
         </Typography>
       </Box>
-      <Container sx={{ margin: "30px auto" }}>
+      <Container
+      //  sx={{ margin: "30px auto" }}
+       
+       >
         <Grid container spacing={2} my={5} justifyContent="center">
           {topRatedDoctors.map((doctor: TDoctor) => (
             <Grid item key={doctor.id} md={4}>

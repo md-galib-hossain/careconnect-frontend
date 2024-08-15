@@ -1,9 +1,22 @@
 "use client";
 
-import { Box, Button, IconButton, MenuItem, Select, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  MenuItem,
+  Select,
+  Stack,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import ScheduleModal from "./components/ScheduleModal";
-import { useDeleteScheduleMutation, useGetAllSchedulesQuery } from "@/redux/api/scheduleApi";
+import {
+  useDeleteScheduleMutation,
+  useGetAllSchedulesQuery,
+} from "@/redux/api/scheduleApi";
 import { DataGrid, GridColDef, GridDeleteIcon } from "@mui/x-data-grid";
 import { ISchedule } from "@/types/schedule";
 import { dateFormatter } from "@/utils/dateFormatter";
@@ -16,15 +29,16 @@ import CircularProgress from "@mui/material/CircularProgress";
 const SchedulesPage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [allSchedule, setAllSchedule] = useState<any>([]);
-  const [deleteSchedule] = useDeleteScheduleMutation();
+  const [deleteSchedule, { isLoading: deleting }] = useDeleteScheduleMutation();
 
   //* Initialize the pagination hook
   const [totalItems, setTotalItems] = useState<number>(0);
-  const { page, limit, pageCount, handleChangePage, handleChangeLimit } = usePagination({
-    initialPage: 1,
-    initialLimit: 5,
-    totalItems,
-  });
+  const { page, limit, pageCount, handleChangePage, handleChangeLimit } =
+    usePagination({
+      initialPage: 1,
+      initialLimit: 5,
+      totalItems,
+    });
 
   const { data, isLoading } = useGetAllSchedulesQuery({ page, limit });
   const schedules = data?.schedules;
@@ -45,7 +59,7 @@ const SchedulesPage = () => {
       };
     });
     setAllSchedule(updateData);
-  }, [data,meta?.total,schedules]);
+  }, [data, meta?.total, schedules]);
 
   // Delete
   const handleDelete = async (id: string) => {
@@ -72,7 +86,11 @@ const SchedulesPage = () => {
       headerAlign: "center",
       align: "center",
       renderCell: ({ row }) => (
-        <IconButton aria-label="delete" onClick={() => handleDelete(row.id)}>
+        <IconButton
+          disabled={deleting}
+          aria-label="delete"
+          onClick={() => handleDelete(row.id)}
+        >
           <GridDeleteIcon sx={{ color: "red" }} />
         </IconButton>
       ),
@@ -85,19 +103,38 @@ const SchedulesPage = () => {
 
   return (
     <Box>
-      <Stack direction={isSmallScreen ? "column" : "row"} justifyContent="space-between" alignItems="center" spacing={2}>
+      <Stack
+        direction={isSmallScreen ? "column" : "row"}
+        justifyContent="space-between"
+        alignItems="center"
+        spacing={2}
+      >
         <Button onClick={() => setIsModalOpen(true)}>Create Schedule</Button>
         <ScheduleModal open={isModalOpen} setOpen={setIsModalOpen} />
       </Stack>
       <Box my={5}>
-      <Typography variant="h4" component="h1" gutterBottom>
+        <Typography variant="h4" component="h1" gutterBottom>
           Schedules
         </Typography>
         {!isLoading ? (
           <Box my={2}>
-            <DataGrid rows={allSchedule ?? []} columns={columns} hideFooter sx={{ height: 318 }} />
+            <Box  sx={{ width: '100%' }}>
+              <DataGrid
+                rows={allSchedule ?? []}
+                columns={columns}
+                hideFooter
+                sx={{ height: 318, overflowX: "auto" }}
+              />
+            </Box>
+
             {/* pagination start */}
-            <Box gap={2} display={"flex"} justifyContent={"center"} alignItems={"center"} flexDirection={isSmallScreen ? "column" : "row"}>
+            <Box
+              gap={2}
+              display={"flex"}
+              justifyContent={"center"}
+              alignItems={"center"}
+              flexDirection={isSmallScreen ? "column" : "row"}
+            >
               <Select
                 disabled={pageCount == 0}
                 value={limit}
@@ -113,7 +150,11 @@ const SchedulesPage = () => {
                 ))}
               </Select>
               <Box mb={1}>
-                <CCPagination pageCount={pageCount} page={page} handleChange={handleChangePage} />
+                <CCPagination
+                  pageCount={pageCount}
+                  page={page}
+                  handleChange={handleChangePage}
+                />
               </Box>
             </Box>
             {/* pagination end */}

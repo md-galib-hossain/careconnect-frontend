@@ -88,7 +88,7 @@ const DoctorModal = ({ open, setOpen }: TProps) => {
           <Grid item xs={12} sm={12} md={4}>
             <CCInput
               name="doctor.contactNumber"
-              label="Contract Number"
+              label="Contact Number"
               fullWidth={true}
               sx={{ mb: 2 }}
             />

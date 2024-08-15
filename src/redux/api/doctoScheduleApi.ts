@@ -12,7 +12,7 @@ const doctorScheduleApi = baseApi.injectEndpoints({
 
             data
         }),
-        invalidatesTags : [tagTypes.doctorSchedule]
+        invalidatesTags : [tagTypes.doctorSchedule,tagTypes.schedule]
     }),
     getAllDoctorSchedules: build.query({
         query: (arg: Record<string, any>) => {

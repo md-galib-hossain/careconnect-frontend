@@ -14,7 +14,7 @@ export type TOpenProps = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const ScheduleModal = ({ open, setOpen }: TOpenProps) => {
-  const [createSchedule] = useCreateScheduleMutation();
+  const [createSchedule,{isLoading:creating}] = useCreateScheduleMutation();
   const handleFormSubmit = async (values: FieldValues) => {
     
     values.startDate = dateFormatter(values.startDate);
@@ -54,7 +54,7 @@ const ScheduleModal = ({ open, setOpen }: TOpenProps) => {
           </Grid>
         </Grid>
         <Box>
-          <Button fullWidth sx={{ mt: 1 }} type="submit">
+          <Button disabled={creating} fullWidth sx={{ mt: 1 }} type="submit">
             Create
           </Button>
         </Box>

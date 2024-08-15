@@ -123,7 +123,7 @@ const ProfileUpdateModal = ({ open, setOpen, id }: TProps) => {
           <Grid item xs={12} sm={12} md={4}>
             <CCInput
               name="contactNumber"
-              label="Contract Number"
+              label="Contact Number"
               sx={{ mb: 2 }}
               fullWidth
             />

@@ -27,12 +27,12 @@ const DoctorScheduleModal = ({ open, setOpen }: TProps) => {
   console.log(selectedScheduleIds);
   const query: Record<string, unknown> = {};
   if (!!selectedDate) {
-    query["limit"] = 48,
-    query["startDateTime"] = dayjs(selectedDate)
-      .hour(0)
-      .minute(0)
-      .millisecond(0)
-      .toISOString();
+    (query["limit"] = 48),
+      (query["startDateTime"] = dayjs(selectedDate)
+        .hour(0)
+        .minute(0)
+        .millisecond(0)
+        .toISOString());
     query["endDateTime"] = dayjs(selectedDate)
       .hour(23)
       .minute(59)
@@ -40,7 +40,7 @@ const DoctorScheduleModal = ({ open, setOpen }: TProps) => {
       .toISOString();
   }
 
-  const { data, isLoading } = useGetAllSchedulesQuery(query);
+  const { data, isLoading, refetch } = useGetAllSchedulesQuery(query);
   const [createDoctorSchedule, { isLoading: creatingLoading }] =
     useCreateDoctorScheduleMutation();
   const schedules = data?.schedules;
@@ -50,21 +50,20 @@ const DoctorScheduleModal = ({ open, setOpen }: TProps) => {
   //     <CircularProgress />
   //   </Box>
   //   )
-     
-    
+
   // }
   const onSubmit = async () => {
     try {
       const res = await createDoctorSchedule({
         scheduleIds: selectedScheduleIds,
       }).unwrap();
-      if(res?.count){
-toast.success("Your slot have been created")
+      if (res?.count) {
+        refetch();
+        toast.success("Your slot have been created");
         setOpen(!open);
-        setSelectedScheduleIds([])
-      }else{
-        toast.success("Something wrong!!")
-
+        setSelectedScheduleIds([]);
+      } else {
+        toast.success("Something wrong!!");
       }
       console.log(res);
     } catch (err) {

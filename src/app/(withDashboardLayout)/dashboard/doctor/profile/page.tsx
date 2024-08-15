@@ -26,6 +26,8 @@ const Profile = () => {
   const { data, isLoading } = useGetMyProfileQuery({});
   const [updateMyProfile, { isLoading: updateIsLoading }] =
     useUpdateMyProfileMutation();
+
+  console.log(data);
   const fileUploadHandler = async (file: File) => {
     const formData = new FormData();
     formData.append("file", file);
@@ -39,13 +41,13 @@ const Profile = () => {
   }
   return (
     <>
-      <ProfileUpdateModal
-        open={isProfileModalOpen}
-        setOpen={setIsProfileModalOpen}
-        id={data?.id}
-      />
       {!isLoading ? (
         <Container>
+          <ProfileUpdateModal
+            open={isProfileModalOpen}
+            setOpen={setIsProfileModalOpen}
+            id={data?.id}
+          />
           <Grid container spacing={4} sx={{ mt: 2 }}>
             <Grid xs={12} md={4}>
               <Box
@@ -57,12 +59,14 @@ const Profile = () => {
                   borderRadius: 1,
                 }}
               >
-                <Image
-                  height={300}
-                  width={400}
-                  src={data?.profilePhoto}
-                  alt="Doctor Image"
-                />
+                {data?.profilePhoto && (
+                  <Image
+                    height={300}
+                    width={400}
+                    src={data?.profilePhoto}
+                    alt="Doctor Image"
+                  />
+                )}
               </Box>
               {updateIsLoading ? (
                 <p>uploading...</p>

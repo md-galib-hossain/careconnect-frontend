@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import DoctorScheduleModal from "./components/DoctorScheduleModal";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { useGetAllDoctorSchedulesQuery } from "@/redux/api/doctoScheduleApi";
+import { useDeleteDoctorScheduleMutation, useGetAllDoctorSchedulesQuery } from "@/redux/api/doctoScheduleApi";
 import { ISchedule } from "@/types/schedule";
 import { dateFormatter } from "@/utils/dateFormatter";
 import dayjs from "dayjs";
@@ -26,6 +26,9 @@ const DoctorSchedulesPage = () => {
 
   // Fetch data using the current page and limit from the hook
   const { data, isLoading } = useGetAllDoctorSchedulesQuery({ page, limit });
+
+  //delete doctor schedule
+const [deleteDoctorSchedule,{isLoading: deleting}] =  useDeleteDoctorScheduleMutation()
 
   useEffect(() => {
     if (data?.meta?.total) {
@@ -57,8 +60,8 @@ const DoctorSchedulesPage = () => {
       headerAlign: "center",
       align: "center",
       renderCell: ({ row }) => (
-        <IconButton aria-label="delete">
-          <DeleteIcon sx={{ color: "red" }} />
+        <IconButton disabled={deleting} aria-label="delete" onClick={()=>deleteDoctorSchedule(row?.id)}>
+          <DeleteIcon sx={{ color:"red" }} />
         </IconButton>
       ),
     },
